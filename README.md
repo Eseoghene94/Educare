@@ -1,13 +1,14 @@
-# Educare 
+# Educare
+
 <img src="./public/logo.svg" alt="educare-logo"/>
 
-### <em>Bridging Knowledge, Building Dreams</em
+### <i>Bridging Knowledge, Building Dreams</i>
 
-![Educonect](educonnect-img.png)
+![Educonect](./educare.png)
 
 ## About ✍️
 
-This website is tailored specifically for students. It will be a platforn where they can engage, learn from their peers, and feel empowered to ask and answer questions freely. The platform will encourage a community of learners helping each other succeed while also building a habit of collaborative learning.
+This website is tailored specifically for students. It is a
 
 ## Features 🌠
 
@@ -29,10 +30,10 @@ Here’s what makes Educonnect stand out:
 
 ```bash
 # Clone the repository
-git clone https://github.com/username/educonnect.git
+git clone https://github.com/Eseoghene94/Educare.git
 
 # Navigate to the project directory
-cd educonnect
+cd Educare
 
 # Install dependencies
 npm install
@@ -41,8 +42,3 @@ npm install
 npm start
 
 ```
-
-
-
-
-

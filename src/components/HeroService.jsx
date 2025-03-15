@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 function HeroService() {
   return (
@@ -7,7 +7,7 @@ function HeroService() {
         {" "}
         <h2 className="text-3xl font-semibold text-center mb-6">Services</h2>
         <div className="space-y-12">
-          <div className="flex flex-col md:flex-row items-center md:space-x-12">
+          <div className="flex flex-col md:flex-row items-center md:space-x-12 space-y-4">
             <img
               src="./child.png"
               alt="For Kids"
@@ -36,33 +36,34 @@ function HeroService() {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row items-center md:space-x-12" >
+          <div className="flex flex-col md:flex-row items-center md:space-x-12 space-y-4">
             <div>
-            <h3 class="text-xl font-normal">For Adults/Youths</h3>
-            <ul class="mt-2 space-y-2">
-              <li>
-                <span className="font-bold">Career Readiness</span> – Explore different career
-                paths and gain insights into various industries.
-              </li>
-              <li>
-                <span className="font-bold">Skill Development</span> – Hands-on training in
-                practical skills that prepare you for the job market.
-              </li>
-              <li>
-                <span className="font-bold">Job Connectivity</span> – Connect with people who have
-                ready-to-go jobs.
-              </li>
-                          </ul>
-                         </div> 
+              <h3 class="text-xl font-normal">For Adults/Youths</h3>
+              <ul class="mt-2 space-y-2">
+                <li>
+                  <span className="font-bold">Career Readiness</span> – Explore
+                  different career paths and gain insights into various
+                  industries.
+                </li>
+                <li>
+                  <span className="font-bold">Skill Development</span> –
+                  Hands-on training in practical skills that prepare you for the
+                  job market.
+                </li>
+                <li>
+                  <span className="font-bold">Job Connectivity</span> – Connect
+                  with people who have ready-to-go jobs.
+                </li>
+              </ul>
+            </div>
             <img
               src="./adult.png"
               alt="For Kids"
               className="w-[400px] h-[400px] rounded-full object-cover"
             />
-   
           </div>
 
-          <div class="flex flex-col md:flex-row items-center md:space-x-12">
+          <div class="flex flex-col md:flex-row items-center md:space-x-12 space-y-4">
             <img
               src="./mentor.png"
               alt="For Mentors & Teachers"
@@ -72,16 +73,16 @@ function HeroService() {
               <h3 class="text-xl font-normal">For Mentors & Teachers</h3>
               <ul class="mt-2 space-y-2">
                 <li>
-                  <span className="font-bold">Interactive Teaching Tools</span> – Access digital
-                  resources to enhance student engagement.
+                  <span className="font-bold">Interactive Teaching Tools</span>{" "}
+                  – Access digital resources to enhance student engagement.
                 </li>
                 <li>
-                  <span className="font-bold">Mentorship Programs</span> – Guide and inspire the
-                  next generation of learners and professionals.
+                  <span className="font-bold">Mentorship Programs</span> – Guide
+                  and inspire the next generation of learners and professionals.
                 </li>
                 <li>
-                  <span className="font-bold">Community Support</span> – Connect with other
-                  educators to share ideas and best practices.
+                  <span className="font-bold">Community Support</span> – Connect
+                  with other educators to share ideas and best practices.
                 </li>
               </ul>
             </div>
@@ -92,4 +93,4 @@ function HeroService() {
   );
 }
 
-export default HeroService
+export default HeroService;

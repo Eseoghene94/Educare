@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { IoMenuOutline } from "react-icons/io5";
 import { LiaTimesSolid } from "react-icons/lia";
 
@@ -60,10 +60,12 @@ function Hero() {
 
         {/* Hero Section */}
         <section className="flex flex-col items-center justify-center h-[80vh] text-white text-center px-6 animate-fade-up">
-          <h2 className="text-4xl md:text-6xl font-bold">
+          <h2 className="text-5xl md:text-6xl font-bold">
             Learn, Grow & Unlock
           </h2>
-          <h2 className="text-4xl md:text-6xl font-bold mt-4">Opportunities</h2>
+          <h2 className="text-5xl md:text-6xl font-bold mt-2 md:mt-2">
+            Opportunities
+          </h2>
           <p className="text-lg md:text-xl my-8">
             Develop skills, gain real-world experience,{" "}
             <br className="hidden md:block" /> and connect with mentors and job

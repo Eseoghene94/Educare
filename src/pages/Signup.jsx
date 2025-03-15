@@ -1,14 +1,15 @@
-import React from 'react'
+import React from "react";
 
 function Signup() {
   return (
-    <div className="hero h-full">
+    <div className="hero ">
       <section className="flex justify-center items-center">
         <div className="bg-clr-txt-primary p-8 rounded-2xl shadow-lg max-w-3xl w-full my-2 mx-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">Hello there!</h2>
             <button className="border border-blue-500 text-blue-500 px-4 py-1 rounded-lg flex items-center hover:bg-blue-100">
-              Cancel <img src="./cancel.svg" alt="cancel-icon" />
+              Cancel{" "}
+              <img src="./cancel.svg" alt="cancel-icon" className="w-5 h-5" />
             </button>
           </div>
           <h3 className="text-xl font-semibold mt-4">Create your Account</h3>
@@ -29,7 +30,6 @@ function Signup() {
             <input
               type="email"
               className="w-full border border-gray-300 rounded-lg p-2"
-              value="johnjoe@gmail.com"
             />
 
             <label class="block mt-4 mb-2 text-sm font-medium">
@@ -40,7 +40,9 @@ function Signup() {
                 type="password"
                 className="w-full border border-gray-300 rounded-lg p-2 pr-10"
               />
-              <span className="absolute right-3 top-3 cursor-pointer">👁️</span>
+              <span className="absolute right-3 top-3 cursor-pointer">
+                <img src="./eye-open-icon.png" alt="eye-icon" />
+              </span>
             </div>
 
             <label className="block mt-4 mb-2 text-sm font-medium">
@@ -51,7 +53,9 @@ function Signup() {
                 type="password"
                 className="w-full border border-gray-300 rounded-lg p-2 pr-10"
               />
-              <span className="absolute right-3 top-3 cursor-pointer">👁️</span>
+              <span className="absolute right-3 top-3 cursor-pointer">
+                <img src="./eye-open-icon.png" alt="eye-icon" />
+              </span>
             </div>
 
             <button className="w-full bg-clr-primary text-white text-lg font-semibold py-3 mt-6 rounded-lg hover:bg-blue-700">
@@ -67,27 +71,15 @@ function Signup() {
 
           <div className="flex justify-between max-md:flex-wrap max-md:space-y-2">
             <button className=" w-full border border-gray-300 p-3 rounded-lg flex items-center space-x-2">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
-                alt="Google"
-                class="w-5 h-5"
-              />
+              <img src="./google-icon.png" alt="Google" class="w-5 h-5" />
               <span>Login with Google</span>
             </button>
             <button className="w-full border border-gray-300 p-3 rounded-lg flex items-center space-x-2">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
-                alt="Facebook"
-                class="w-5 h-5"
-              />
+              <img src="./facebook-icon.png" alt="Facebook" class="w-5 h-5" />
               <span>Login with Facebook</span>
             </button>
             <button className=" w-full border border-gray-300 p-3 rounded-lg flex items-center space-x-2">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
-                alt="Apple"
-                class="w-5 h-5"
-              />
+              <img src="./apple-icon.png" alt="Apple" class="w-5 h-5" />
               <span>Login with Apple</span>
             </button>
           </div>
@@ -104,4 +96,4 @@ function Signup() {
   );
 }
 
-export default Signup
+export default Signup;

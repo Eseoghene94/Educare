@@ -2,14 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
     /* Colors for educare brand  */
 
     --background: #ffffff;
-    --secondary-background: #D4D4D4;
-    --primary: #305AD2;
+    --secondary-background: #d4d4d4;
+    --primary: #305ad2;
     --surface: #e3f2fd;
     --base: #0d3960;
     --success: #43a047;
@@ -17,7 +16,7 @@
     --warning: #f59e0b;
     --inverted: #7e57c2;
     --hover: #4ba0ea;
-    --text-primary: #ffffff;   
+    --text-primary: #ffffff;
     --text-secondary: #6a6a6a;
     --text-tertiary: #e8e8e8;
     --text-accent: #999999;
@@ -31,8 +30,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-body{
-       min-height: 100vh; 
-         font-family: "Poppins", sans-serif;
-       
+body {
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
 }
