@@ -2,10 +2,12 @@ import React from "react";
 
 function HeroService() {
   return (
-    <section className="bg-clr-secondary p-8 rounded-lg ">
+    <section className="bg-clr-secondary p-8 rounded-lg font-sans">
       <div className="max-w-6xl  mx-auto ">
         {" "}
-        <h2 className="text-3xl font-semibold text-center mb-6">Services</h2>
+        <h2 className="text-5xl font-bold text-blue-700 text-center mb-6">
+          Services
+        </h2>
         <div className="space-y-12">
           <div className="flex flex-col md:flex-row items-center md:space-x-12 space-y-4">
             <img
@@ -14,7 +16,7 @@ function HeroService() {
               className="w-[400px] h-[400px] rounded-full object-cover"
             />
             <div>
-              <h3 className="text-xl font-normal">For Kids</h3>
+              <h3 className="text-3xl font-serif">For Kids</h3>
               <ul className="mt-2 space-y-2">
                 <li>
                   <span className="font-bold">Personalized Learning</span> –
@@ -38,8 +40,8 @@ function HeroService() {
 
           <div className="flex flex-col md:flex-row items-center md:space-x-12 space-y-4">
             <div>
-              <h3 class="text-xl font-normal">For Adults/Youths</h3>
-              <ul class="mt-2 space-y-2">
+              <h3 className="text-3xl font-serif">For Adults/Youths</h3>
+              <ul className="mt-2 space-y-2">
                 <li>
                   <span className="font-bold">Career Readiness</span> – Explore
                   different career paths and gain insights into various
@@ -63,15 +65,15 @@ function HeroService() {
             />
           </div>
 
-          <div class="flex flex-col md:flex-row items-center md:space-x-12 space-y-4">
+          <div className="flex flex-col md:flex-row items-center md:space-x-12 space-y-4">
             <img
               src="./mentor.png"
               alt="For Mentors & Teachers"
-              class="w-[400px] h-[400px] rounded-full object-cover"
+              className="w-[400px] h-[400px] rounded-full object-cover"
             />
             <div>
-              <h3 class="text-xl font-normal">For Mentors & Teachers</h3>
-              <ul class="mt-2 space-y-2">
+              <h3 className="text-3xl font-serif">For Mentors & Teachers</h3>
+              <ul className="mt-2 space-y-2">
                 <li>
                   <span className="font-bold">Interactive Teaching Tools</span>{" "}
                   – Access digital resources to enhance student engagement.

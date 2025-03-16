@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 // import Faq from "./pages/Faq";
 // import Contact from "./pages/Contact";
 import Signup from "./pages/Signup";
-// import Signin from "./pages/Signin";
+import Signin from "./pages/Signin";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
         {/* <Route path="/faq" element={<Faq />} /> */}
         {/* <Route path="/contact" element={<Contact />} /> */}
         // <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/signin" element={<Signin />} /> */}
+        <Route path="/signin" element={<Signin />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
