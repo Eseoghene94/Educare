@@ -1,10 +1,108 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function HeroService() {
+  const canvasRef = useRef(null);
+  const [canvasSize, setCanvasSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  // Update canvas size on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setCanvasSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    // Function to generate a random faded color
+    const getRandomFadedColor = () => {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      const alpha = 0.7; // Set alpha for faded effect
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    };
+
+    // Function to draw a random shape
+    const drawRandomShape = () => {
+      const shapes = ["circle", "rectangle", "triangle"];
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const size = Math.random() * 40 + 40; // Smaller size: random between 20 and 60
+      const color = getRandomFadedColor();
+
+      ctx.fillStyle = color;
+
+      switch (shape) {
+        case "circle":
+          ctx.beginPath();
+          ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+
+        case "rectangle":
+          ctx.fillRect(x, y, size, size);
+          break;
+
+        case "triangle":
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + size, y);
+          ctx.lineTo(x + size / 2, y - size);
+          ctx.closePath();
+          ctx.fill();
+          break;
+
+        default:
+          break;
+      }
+    };
+
+    // Clear the canvas and draw 15 random shapes (more shapes for better coverage)
+    const drawShapes = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < 15; i++) {
+        drawRandomShape();
+      }
+    };
+
+    // Set canvas size dynamically
+    canvas.width = canvasSize.width;
+    canvas.height = canvasSize.height;
+
+    // Initial draw
+    drawShapes();
+
+    // Redraw shapes every 2 seconds
+    const interval = setInterval(drawShapes, 2000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, [canvasSize]); // Redraw shapes when canvas size changes
+
   return (
-    <section className="bg-white p-8  font-sans">
-      <div className="max-w-6xl  mx-auto ">
-        {" "}
+    <section className="bg-white p-8 font-sans relative overflow-hidden">
+      {/* Canvas for random shapes */}
+      <canvas
+        ref={canvasRef}
+        className="absolute top-0 left-0 w-full h-full pointer-events-none"
+        width={canvasSize.width}
+        height={canvasSize.height}
+      ></canvas>
+
+      <div className="max-w-6xl mx-auto relative z-10">
         <h2 className="text-5xl font-bold text-blue-700 text-center mb-6">
           Our Services
         </h2>
