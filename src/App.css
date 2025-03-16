@@ -1,0 +1,29 @@
+.hero {
+  background: url("./assets/home-background.jpg") no-repeat center center/cover;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1240px;
+  width: calc(100% - 1rem);
+  margin: auto;
+}
+.auth-bcg {
+  background: url("./auth-bcg.svg") no-repeat center center/cover;
+  height: 100vh;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease-out;
+}
