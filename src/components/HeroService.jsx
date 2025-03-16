@@ -2,11 +2,11 @@ import React from "react";
 
 function HeroService() {
   return (
-    <section className="bg-clr-secondary p-8 rounded-lg font-sans">
+    <section className="bg-white p-8  font-sans">
       <div className="max-w-6xl  mx-auto ">
         {" "}
         <h2 className="text-5xl font-bold text-blue-700 text-center mb-6">
-          Services
+          Our Services
         </h2>
         <div className="space-y-12">
           <div className="flex flex-col md:flex-row items-center md:space-x-12 space-y-4">

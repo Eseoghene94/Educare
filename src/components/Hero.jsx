@@ -36,7 +36,7 @@ function Hero() {
                 </Link>
               </li>
               <li>
-                <Link to="/" className="block py-2 ">
+                <Link to="/TeacherSignup" className="block py-2 ">
                   Become a Teacher
                 </Link>
               </li>
