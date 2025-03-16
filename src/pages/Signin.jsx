@@ -3,7 +3,7 @@ import { Eye, EyeOff } from "lucide-react";
 
 function Signin() {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Typing animation state
   const [text, setText] = useState("");
@@ -92,27 +92,6 @@ function Signin() {
               </span>
             </div>
 
-            {/* Confirm Password Input */}
-            {/* <label
-              htmlFor="confirm-password"
-              className="block mt-4 mb-2 text-sm font-medium"
-            >
-              Confirm password
-            </label>
-            <div className="relative">
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                id="confirm-password"
-                className="w-full border border-gray-300 rounded-lg p-2 pr-10"
-              />
-              <span
-                className="absolute right-3 top-3 cursor-pointer text-gray-600"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </span>
-            </div> */}
-
             <button className="w-full bg-blue-600 text-white text-lg font-semibold py-3 mt-6 rounded-lg hover:bg-blue-700">
               Create Account
             </button>
@@ -126,12 +105,12 @@ function Signin() {
           </div>
 
           {/* Social Login Buttons */}
-          <div className="flex flex-col space-y-2">
-            <button className="w-full border border-gray-300 p-3 rounded-lg flex items-center space-x-2">
+          <div className="flex flex-col items-center space-y-2">
+            <button className="w-full max-w-xs border border-gray-300 p-3 rounded-lg flex items-center justify-center space-x-2">
               <img src="/google-icon.png" alt="Google" className="w-5 h-5" />
               <span>Login with Google</span>
             </button>
-            <button className="w-full border border-gray-300 p-3 rounded-lg flex items-center space-x-2">
+            <button className="w-full max-w-xs border border-gray-300 p-3 rounded-lg flex items-center justify-center space-x-2">
               <img
                 src="/facebook-icon.png"
                 alt="Facebook"
