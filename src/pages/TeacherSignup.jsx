@@ -15,17 +15,22 @@ function TeacherSignup() {
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      // Validate file type
       if (
         file.type === "application/pdf" ||
         file.type === "application/msword" ||
         file.type ===
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       ) {
-        setCvFile(file); // Set the file if it's valid
+        if (file.size <= 5 * 1024 * 1024) {
+          // 5MB limit
+          setCvFile(file);
+        } else {
+          alert("File size must be less than 5MB.");
+          e.target.value = "";
+        }
       } else {
         alert("Please upload a valid file type (PDF or DOC).");
-        e.target.value = ""; // Clear the input if the file type is invalid
+        e.target.value = "";
       }
     }
   };
@@ -43,32 +48,51 @@ function TeacherSignup() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
       return; // Stop form submission if there are errors
     }
 
-    // Create FormData object to collect all form inputs
     const formData = new FormData(e.currentTarget);
 
-    // Append the CV file to the form data if it exists
     if (cvFile) {
       formData.append("cv", cvFile);
     }
 
-    // Append the profile picture if it exists
     if (profilePicture) {
       formData.append("profilePicture", profilePicture);
     }
 
-    // Log form data for debugging
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
+    try {
+      const response = await fetch("http://localhost:5000/api/admin/teacher", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token if required
+        },
+      });
 
-    console.log("Form submitted!");
+      if (response.ok) {
+        const data = await response.json();
+        alert("Teacher registered successfully!");
+        console.log("Teacher data:", data);
+        // Reset form fields
+        setName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setCvFile(null);
+        setProfilePicture(null);
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred while submitting the form.");
+    }
   };
 
   return (
@@ -381,6 +405,15 @@ function TeacherSignup() {
             >
               Create Account
             </button>
+            <div>
+              {/* Sign In Link */}
+              <p className="text-center text-sm text-gray-500 mt-4">
+                Already have an account?{" "}
+                <a href="/Signin" className="text-blue-500 font-semibold">
+                  Sign in!
+                </a>
+              </p>
+            </div>
           </form>
         </div>
       </div>

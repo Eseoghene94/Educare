@@ -29,7 +29,7 @@ function HeroService() {
       const r = Math.floor(Math.random() * 256);
       const g = Math.floor(Math.random() * 256);
       const b = Math.floor(Math.random() * 256);
-      const alpha = 0.7; // Set alpha for faded effect
+      const alpha = 0.3; // Set alpha for faded effect
       return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     };
 

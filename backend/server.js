@@ -6,13 +6,16 @@ import authRoutes from "./routes/auth.js";
 import courseRoutes from "./routes/courses.js";
 import certificateRoutes from "./routes/certificate.js";
 import enrollmentRoutes from "./routes/enrollment.js";
-import adminRoutes from "./routes/admin.js";
+import adminRouter from "./routes/admin.js";
+import subscribeRoutes from "./routes/subscribe.js";
+import process from "node:process";
 
 const app = express();
 
 // Middleware
 app.use(express.json()); // Parse JSON request bodies
-app.use(cors()); // Enable CORS
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
+app.use(cors({ origin: "http://localhost:3000", credentials: true })); // Enable CORS for frontend
 app.use(helmet()); // Add security headers
 app.use(
   rateLimit({
@@ -27,7 +30,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/enrollment", enrollmentRoutes);
 app.use("/api/certificates", certificateRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/admin", adminRouter);
+app.use("/subscribe", subscribeRoutes);
 
 // Health Check Endpoint
 app.get("/api/health", (req, res) => {
@@ -40,7 +44,7 @@ app.use((req, res) => {
 });
 
 // Global Error Handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.error("Error:", err.stack);
   res.status(500).json({ message: "Something went wrong on the server" });
 });

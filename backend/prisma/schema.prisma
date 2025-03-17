@@ -30,25 +30,36 @@ enum Role {
 }
 
 model Teacher {
-  id          String   @id @default(uuid())
-  name        String
-  email       String   @unique
-  bio         String?
-  photoUrl    String?
-  courses     Course[] // Courses taught by the teacher
-  createdAt   DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  name            String
+  email           String   @unique
+  password        String   // Add password field
+  address         String?
+  phone           String?
+  dob             DateTime?
+  gender          String?
+  expertise       String?
+  experience      Int?
+  certifications  String?
+  linkedin        String?
+  twitter         String?
+  profilePicture  String?
+  cv              String?
+  courses         Course[] // Add this relation field
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Course {
-  id          String         @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String
   content     String
-  teacher     Teacher?       @relation(fields: [teacherId], references: [id]) // Optional teacher (if the course is unassigned)
-  teacherId   String?
+  teacher     Teacher? @relation(fields: [teacherId], references: [id]) // Optional teacher (if the course is unassigned)
+  teacherId   Int?     // Match the type of Teacher.id
   enrollments Enrollment[]   // Students enrolled in the course
   certificates Certificate[] // Certificates issued for this course
-  createdAt   DateTime       @default(now())
+  createdAt   DateTime @default(now())
 }
 
 model Enrollment {
