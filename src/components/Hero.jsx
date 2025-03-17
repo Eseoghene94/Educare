@@ -31,8 +31,8 @@ function Hero() {
                 </Link>
               </li>
               <li>
-                <Link to="/" className="block py-2 ">
-                  Socials
+                <Link to="/Profile" className="block py-2 ">
+                  Profile
                 </Link>
               </li>
               <li>
@@ -63,7 +63,7 @@ function Hero() {
         {/* Hero Section */}
         <section className="flex flex-col items-center justify-center h-[80vh] text-white text-center px-6 animate-fade-up">
           <h2 className="text-5xl md:text-6xl font-bold">
-            Learn, <span style={{ color: "yellow" }}>Grow</span>
+            Learn, <span className="text-clr-primary">Grow</span>
           </h2>
           <h2 className="text-5xl md:text-6xl mt-2 font-bold"> &</h2>
           <h2 className="text-5xl md:text-6xl font-bold mt-2 md:mt-2">

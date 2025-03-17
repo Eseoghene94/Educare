@@ -8,6 +8,7 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import NotFound from "./pages/NotFound";
 import TeacherSignup from "./pages/TeacherSignup";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/TeacherSignup" element={<TeacherSignup />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/Profile" element={<Profile />} />
       </Routes>
     </>
   );

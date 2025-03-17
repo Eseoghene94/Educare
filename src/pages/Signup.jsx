@@ -158,7 +158,7 @@ function Signup() {
           {/* Sign In Link */}
           <p className="text-center text-sm text-gray-500 mt-4">
             Already have an account?{" "}
-            <a href="/Signin" className="text-blue-500 font-semibold">
+            <a href="/signin" className="text-blue-500 font-semibold">
               Sign in!
             </a>
           </p>
