@@ -26,15 +26,15 @@ function Sidebar() {
     >
       {/* Toggle Button (Now Inside Sidebar) */}
       <button
-        className="flex items-center justify-center p-3 rounded-md bg-gray-800 text-white mx-auto mb-4"
+        className="flex items-center justify-center p-2 rounded-md bg-gray-800 text-white mx-auto mb-3"
         onClick={() => setSidebarOpen(!isSidebarOpen)}
       >
-        {isSidebarOpen ? <X size={14} /> : <Menu size={14} />}
+        {isSidebarOpen ? <X size={10} /> : <Menu size={10} />}
       </button>
 
       {/* Navigation Links */}
       <nav className="flex-1 overflow-hidden">
-        <ul className="space-y-3 text-gray-700 font-medium">
+        <ul className="space-y-5 text-gray-700 font-medium">
           {[
             { name: "Home", icon: <Home size={22} />, link: "/" },
             {
@@ -91,7 +91,7 @@ function Sidebar() {
       </nav>
       {/* Logout Button (Fixed at Bottom) */}
       <button className="flex rounded-full mb-10 items-center space-x-3 p-2 bg-clr-primary text-white w-full">
-        <LogOut size={22} />
+        <LogOut size={20} />
         {isSidebarOpen && <span>Logout</span>}
       </button>
     </aside>
