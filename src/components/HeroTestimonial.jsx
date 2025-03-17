@@ -49,7 +49,7 @@ function HeroTestimonial() {
                   className="w-20 h-20 rounded-full border-4 border-[#1e3a8a] object-cover shadow-md"
                 />
                 <h3 className="text-xl font-bold mt-6 text-[#1e3a8a]">
-                  Michael Lee
+                  Gloria Chukwu
                 </h3>
                 <p className="mt-4 text-gray-700 leading-relaxed">
                   "EduCARE exceeded my expectations!"
