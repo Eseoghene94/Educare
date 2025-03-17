@@ -33,7 +33,7 @@ function HeroTestimonial() {
               alt="mentor"
               className="w-16 h-16 mx-auto rounded-full border-2 object-cover border-white"
             />
-            <h3 className="text-lg font-semibold mt-4">Samuel Okoro</h3>
+            <h3 className="text-lg font-semibold mt-4">Eseoghene David</h3>
             <p className="mt-3 text-gray-300">
               Getting to hear other peoples stories and life experience is a
               plus here. I wasn’t the best at having the right attitude to work
