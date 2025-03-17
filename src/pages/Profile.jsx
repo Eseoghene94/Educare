@@ -1,4 +1,3 @@
-// Profile.jsx
 import React from "react";
 import Header from "../components/MainHeader";
 import Sidebar from "../components/MainSideBar";
@@ -8,21 +7,23 @@ import Footer from "../components/MainFooter";
 
 function Profile() {
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <Header />
+    <div className="flex min-h-screen">
+      {/* Sidebar (Fixed on the left) */}
+      <Sidebar className="w-64 flex-shrink-0" />
 
-      {/* Main Content Area */}
-      <div className="flex flex-1">
-        {/* Sidebar */}
-        <Sidebar />
+      {/* Right Section (Header + Main Content) */}
+      <div className="flex flex-col flex-1">
+        {/* Header (Full Width at the Top) */}
+        <Header />
 
-        {/* Main Content */}
-        <MainContent />
+        {/* Main Content (Takes Remaining Space) */}
+        <div className="flex-1 overflow-auto p-4">
+          <MainContent />
+        </div>
+
+        {/* Footer (Always at the Bottom) */}
+        <Footer className="w-full" />
       </div>
-
-      {/* Footer */}
-      <Footer />
 
       {/* Notifications (Optional) */}
       {/* <Notifications /> */}
