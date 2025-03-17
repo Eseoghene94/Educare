@@ -10,12 +10,14 @@ import {
   Bell,
   BadgeDollarSign,
   ScrollText,
+  LogOut,
 } from "lucide-react";
 
 function Sidebar() {
   return (
-    <aside className="w-64 bg-white shadow-lg p-4 min-h-screen">
-      <nav>
+    <aside className="w-64 bg-white shadow-lg p-4 h-screen flex flex-col fixed top-0 left-0">
+      {/* Navigation Links */}
+      <nav className="flex-1">
         <ul className="space-y-3 text-gray-700 font-medium">
           <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
             <Home size={20} /> <a href="/home">Home</a>
@@ -50,6 +52,11 @@ function Sidebar() {
           </li>
         </ul>
       </nav>
+
+      {/* Logout Button (Stays at Bottom) */}
+      <button className="mt-auto bg-clr-primary text-white w-full p-2 rounded-md flex items-center justify-center space-x-2 hover:bg-opacity-90">
+        <LogOut size={20} /> <span>Logout</span>
+      </button>
     </aside>
   );
 }
