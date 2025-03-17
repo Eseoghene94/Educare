@@ -65,7 +65,7 @@ function Hero() {
           <h2 className="text-5xl md:text-6xl font-bold">
             Learn, <span style={{ color: "yellow" }}>Grow</span>
           </h2>
-          <h2 className="text-5xl md:text-6xl font-bold"> &</h2>
+          <h2 className="text-5xl md:text-6xl mt-2 font-bold"> &</h2>
           <h2 className="text-5xl md:text-6xl font-bold mt-2 md:mt-2">
             Unlock Opportunities
           </h2>
