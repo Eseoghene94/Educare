@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Home,
   LayoutDashboard,
@@ -11,51 +11,88 @@ import {
   BadgeDollarSign,
   ScrollText,
   LogOut,
+  Menu,
+  X,
 } from "lucide-react";
 
 function Sidebar() {
+  const [isSidebarOpen, setSidebarOpen] = useState(true); // Sidebar starts open
+
   return (
-    <aside className="w-64 bg-white shadow-lg p-4 h-screen flex flex-col fixed top-0 left-0">
+    <aside
+      className={`h-screen flex flex-col justify-between bg-white shadow-lg p-2 transition-all duration-300 ${
+        isSidebarOpen ? "w-64" : "w-16"
+      }`}
+    >
+      {/* Toggle Button (Now Inside Sidebar) */}
+      <button
+        className="flex items-center justify-center p-3 rounded-md bg-gray-800 text-white mx-auto mb-4"
+        onClick={() => setSidebarOpen(!isSidebarOpen)}
+      >
+        {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
       {/* Navigation Links */}
-      <nav className="flex-1">
+      <nav className="flex-1 overflow-hidden">
         <ul className="space-y-3 text-gray-700 font-medium">
-          <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
-            <Home size={20} /> <a href="/home">Home</a>
-          </li>
-          <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
-            <LayoutDashboard size={20} /> <a href="/dashboard">Dashboard</a>
-          </li>
-          <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
-            <BookOpen size={20} /> <a href="/my-courses">My Courses</a>
-          </li>
-          <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
-            <Users size={20} /> <a href="/community">Community</a>
-          </li>
-          <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
-            <ClipboardList size={20} /> <a href="/task">Task</a>
-          </li>
-          <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
-            <BarChart3 size={20} /> <a href="/progress">Progress</a>
-          </li>
-          <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
-            <Download size={20} /> <a href="/downloads">Downloads</a>
-          </li>
-          <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
-            <BadgeDollarSign size={20} />{" "}
-            <a href="/subscription">Subscription</a>
-          </li>
-          <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
-            <ScrollText size={20} /> <a href="/scholarship">Scholarship</a>
-          </li>
-          <li className="flex items-center space-x-2 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
-            <Bell size={20} /> <a href="/notifications">Notifications</a>
-          </li>
+          {[
+            { name: "Home", icon: <Home size={22} />, link: "/home" },
+            {
+              name: "Dashboard",
+              icon: <LayoutDashboard size={22} />,
+              link: "/dashboard",
+            },
+            {
+              name: "My Courses",
+              icon: <BookOpen size={22} />,
+              link: "/my-courses",
+            },
+            {
+              name: "Community",
+              icon: <Users size={22} />,
+              link: "/community",
+            },
+            { name: "Task", icon: <ClipboardList size={22} />, link: "/task" },
+            {
+              name: "Progress",
+              icon: <BarChart3 size={22} />,
+              link: "/progress",
+            },
+            {
+              name: "Downloads",
+              icon: <Download size={22} />,
+              link: "/downloads",
+            },
+            {
+              name: "Subscription",
+              icon: <BadgeDollarSign size={22} />,
+              link: "/subscription",
+            },
+            {
+              name: "Scholarship",
+              icon: <ScrollText size={22} />,
+              link: "/scholarship",
+            },
+            {
+              name: "Notifications",
+              icon: <Bell size={22} />,
+              link: "/notifications",
+            },
+          ].map((item, index) => (
+            <li
+              key={index}
+              className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 cursor-pointer"
+            >
+              {item.icon}
+              {isSidebarOpen && <a href={item.link}>{item.name}</a>}
+            </li>
+          ))}
         </ul>
       </nav>
-
-      {/* Logout Button (Stays at Bottom) */}
-      <button className="mt-auto bg-clr-primary text-white w-full p-2 rounded-md flex items-center justify-center space-x-2 hover:bg-opacity-90">
-        <LogOut size={20} /> <span>Logout</span>
+      {/* Logout Button (Fixed at Bottom) */}
+      <button className="flex items-center space-x-3 p-2 rounded-md bg-red-600 text-white w-full">
+        <LogOut size={22} />
+        {isSidebarOpen && <span>Logout</span>}
       </button>
     </aside>
   );
