@@ -29,14 +29,14 @@ function Sidebar() {
         className="flex items-center justify-center p-3 rounded-md bg-gray-800 text-white mx-auto mb-4"
         onClick={() => setSidebarOpen(!isSidebarOpen)}
       >
-        {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        {isSidebarOpen ? <X size={14} /> : <Menu size={14} />}
       </button>
 
       {/* Navigation Links */}
       <nav className="flex-1 overflow-hidden">
         <ul className="space-y-3 text-gray-700 font-medium">
           {[
-            { name: "Home", icon: <Home size={22} />, link: "/home" },
+            { name: "Home", icon: <Home size={22} />, link: "/" },
             {
               name: "Dashboard",
               icon: <LayoutDashboard size={22} />,
@@ -90,7 +90,7 @@ function Sidebar() {
         </ul>
       </nav>
       {/* Logout Button (Fixed at Bottom) */}
-      <button className="flex items-center space-x-3 p-2 rounded-md bg-red-600 text-white w-full">
+      <button className="flex rounded-full mb-10 items-center space-x-3 p-2 bg-clr-primary text-white w-full">
         <LogOut size={22} />
         {isSidebarOpen && <span>Logout</span>}
       </button>
