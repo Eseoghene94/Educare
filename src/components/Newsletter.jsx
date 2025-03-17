@@ -32,7 +32,7 @@ const Newsletter = () => {
     <section className="py-16 font-sans" style={{ backgroundColor: "#F0F3FB" }}>
       <div className="container mx-auto px-6 text-center">
         <h2 className="text-4xl font-bold text-slate-800 mb-4">
-          Stay Updated with EduCare
+          Stay Updated with <span className="text-blue-700">EduCare</span>
         </h2>
         <p className="text-lg text-slate-600 mb-8">
           Subscribe to our newsletter to get the latest updates, exclusive
