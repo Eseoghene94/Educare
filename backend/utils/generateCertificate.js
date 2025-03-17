@@ -10,7 +10,7 @@ export const generateCertificate = async (studentName, courseTitle) => {
     const doc = new PDFDocument();
     const filePath = `certificates/${studentName.replace(
       /\s+/g,
-      "_"
+      "_",
     )}_${courseTitle.replace(/\s+/g, "_")}.pdf`;
 
     doc.fontSize(20).text("Certificate of Completion", { align: "center" });

@@ -124,7 +124,7 @@ router.post(
         .status(500)
         .json({ message: "Error adding teacher", error: error.message });
     }
-  }
+  },
 );
 
 // Other routes remain unchanged...

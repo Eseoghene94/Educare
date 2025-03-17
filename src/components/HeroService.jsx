@@ -73,7 +73,7 @@ function HeroService() {
     // Clear the canvas and draw 15 random shapes (more shapes for better coverage)
     const drawShapes = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < 15; i++) {
+      for (let i = 0; i < 12; i++) {
         drawRandomShape();
       }
     };
@@ -93,7 +93,7 @@ function HeroService() {
   }, [canvasSize]); // Redraw shapes when canvas size changes
 
   return (
-    <section className="bg-white p-8 font-sans relative overflow-hidden">
+    <section className="bg-white p-8  relative overflow-hidden">
       {/* Canvas for random shapes */}
       <canvas
         ref={canvasRef}
@@ -165,7 +165,7 @@ function HeroService() {
 
           <div className="flex flex-col md:flex-row items-center md:space-x-12 space-y-4">
             <img
-              src="./mentor.png"
+              src="./mentor.jpg"
               alt="For Mentors & Teachers"
               className="w-[400px] h-[400px] rounded-full object-cover"
             />
