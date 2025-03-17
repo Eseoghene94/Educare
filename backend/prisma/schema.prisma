@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  role          Role           @default(STUDENT)
+  enrollments   Enrollment[]   // Courses the user is enrolled in (if they are a STUDENT)
+  certificates  Certificate[]  // Certificates earned by the user
+  notifications Notification[] // Notifications received by the user
+  createdAt     DateTime       @default(now())
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+  PARTNER
+}
+
+model Teacher {
+  id              Int      @id @default(autoincrement())
+  name            String
+  email           String   @unique
+  password        String   // Add password field
+  address         String?
+  phone           String?
+  dob             DateTime?
+  gender          String?
+  expertise       String?
+  experience      Int?
+  certifications  String?
+  linkedin        String?
+  twitter         String?
+  profilePicture  String?
+  cv              String?
+  courses         Course[] // Add this relation field
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Course {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  content     String
+  teacher     Teacher? @relation(fields: [teacherId], references: [id]) // Optional teacher (if the course is unassigned)
+  teacherId   Int?     // Match the type of Teacher.id
+  enrollments Enrollment[]   // Students enrolled in the course
+  certificates Certificate[] // Certificates issued for this course
+  createdAt   DateTime @default(now())
+}
+
+model Enrollment {
+  id        String   @id @default(uuid())
+  student   User     @relation(fields: [studentId], references: [id]) // Student enrolled in the course
+  studentId String
+  course    Course   @relation(fields: [courseId], references: [id]) // Course the student is enrolled in
+  courseId  String
+  progress  Int      @default(0) // Progress in percentage
+  createdAt DateTime @default(now())
+
+  @@unique([studentId, courseId]) // Ensures a student can't enroll in the same course twice
+}
+
+model Certificate {
+  id             String   @id @default(uuid())
+  student        User     @relation(fields: [studentId], references: [id]) // Student who earned the certificate
+  studentId      String
+  course         Course   @relation(fields: [courseId], references: [id]) // Course for which the certificate was issued
+  courseId       String
+  issueDate      DateTime @default(now())
+  certificateUrl String   // URL to the certificate file
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  student   User     @relation(fields: [studentId], references: [id]) // Student who receives the notification
+  studentId String
+  message   String   // Notification message
+  createdAt DateTime @default(now())
+}

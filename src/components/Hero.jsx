@@ -15,17 +15,19 @@ function Hero() {
 
           {/* Navigation */}
           <nav
-            className={`lg:flex ${menuOpen ? "block" : "hidden"} absolute lg:relative  top-0 max-md:top-20 left-0 w-full lg:w-auto bg-gray-900 lg:bg-transparent p-5 lg:p-0 shadow-lg lg:shadow-none`}
+            className={`lg:flex ${
+              menuOpen ? "block" : "hidden"
+            } absolute lg:relative  top-0 max-md:top-20 left-0 w-full lg:w-auto bg-gray-900 lg:bg-transparent p-5 lg:p-0 shadow-lg lg:shadow-none`}
           >
             <ul className="flex flex-col lg:flex-row lg:space-x-10 text-xl font-bold text-white">
               <li>
-                <Link to="/" className="block py-2 ">
+                <Link to="/about" className="block py-2 ">
                   About us
                 </Link>
               </li>
               <li>
-                <Link to="/" className="block py-2 ">
-                  Program
+                <Link to="/programs" className="block py-2 ">
+                  Programs
                 </Link>
               </li>
               <li>
@@ -34,13 +36,13 @@ function Hero() {
                 </Link>
               </li>
               <li>
-                <Link to="/signup" className="block py-2 ">
-               Become a teacher
+                <Link to="/TeacherSignup" className="block py-2 ">
+                  Become a Teacher
                 </Link>
               </li>
               <li>
-                <Link to="/" className="block py-2 ">
-                  Log in
+                <Link to="/signin" className="block py-2 ">
+                  Login
                 </Link>
               </li>
             </ul>
