@@ -62,10 +62,11 @@ function Hero() {
 
         {/* Hero Section */}
         <section className="flex flex-col items-center justify-center h-[80vh] text-white text-center px-6 animate-fade-up">
-          <h2 className="text-5xl md:text-6xl font-bold">
-            Learn, <span className="text-white">Grow</span>
+          <h2 className="text-5xl md:text-6xl font-bold">Learn, Grow</h2>
+          <h2 className="text-5xl md:text-6xl mt-2 font-bold text-blue-500">
+            {" "}
+            &{" "}
           </h2>
-          <h2 className="text-5xl md:text-6xl mt-2 font-bold"> &</h2>
           <h2 className="text-5xl md:text-6xl font-bold mt-2 md:mt-2">
             Unlock Opportunities
           </h2>
