@@ -1,94 +1,77 @@
 import express from "express";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
 import process from "process";
 
 dotenv.config();
-const prisma = new PrismaClient();
+
 const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET;
 
-/**
- * @route POST /api/auth/register
- * @desc Register a new user
- */
-router.post("/register", async (req, res) => {
-  const { name, email, password, role } = req.body;
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined in the environment variables.");
+}
 
-  // Validate the request body
-  if (!name || !email || !password || !role) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
+// Middleware to verify JWT token
+const authMiddleware = (req, res, next) => {
   try {
-    // Check if the user already exists
-    const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already exists" });
+    // Extract token from cookies or Authorization header
+    const token =
+      req.cookies?.token ||
+      (req.headers.authorization?.startsWith("Bearer ")
+        ? req.headers.authorization.split(" ")[1]
+        : null);
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Verify the token
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(403).json({ message: "Invalid or expired token" });
+  }
+};
 
-    // Create the user
-    const user = await prisma.user.create({
-      data: { name, email, password: hashedPassword, role },
+// Middleware to authorize based on user roles
+const authorizeRoles = (allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user || !req.user.role) {
+      return res
+        .status(403)
+        .json({ message: "Access denied: No user role found" });
+    }
+
+    if (!allowedRoles.includes(req.user.role)) {
+      return res
+        .status(403)
+        .json({ message: "Access denied: Unauthorized role" });
+    }
+
+    next();
+  };
+};
+
+// Sample authentication route
+router.post("/login", (req, res) => {
+  const { username, password } = req.body;
+
+  // Mock user authentication (replace with actual user validation)
+  if (username === "admin" && password === "password") {
+    const token = jwt.sign({ username, role: "admin" }, JWT_SECRET, {
+      expiresIn: "1h",
     });
 
-    // Generate a JWT token
-    const token = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" },
-    );
-
-    // Return the response
-    res.status(201).json({ message: "User registered successfully", token });
-  } catch (error) {
-    console.error("Error during registration:", error);
-    res.status(500).json({ message: "Something went wrong" });
+    return res.json({ token });
   }
+
+  res.status(401).json({ message: "Invalid credentials" });
 });
 
-/**
- * @route POST /api/auth/login
- * @desc Authenticate user & get token
- */
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-
-  // Validate the request body
-  if (!email || !password) {
-    return res.status(400).json({ message: "Email and password are required" });
-  }
-
-  try {
-    // Find the user by email
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-
-    // Compare the password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid email or password" });
-    }
-
-    // Generate a JWT token
-    const token = jwt.sign(
-      { id: user.id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" },
-    );
-
-    // Return the response
-    res.status(200).json({ message: "Login successful", token });
-  } catch (error) {
-    console.error("Error during login:", error);
-    res.status(500).json({ message: "Something went wrong" });
-  }
-});
-
+// Export middlewares and router correctly
+export { authMiddleware, authorizeRoles };
 export default router;

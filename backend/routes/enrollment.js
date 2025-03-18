@@ -1,5 +1,5 @@
 import express from "express";
-import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
+import { verifyToken, authorizeRoles } from "../middleware/authMiddleware.js";
 import { PrismaClient } from "@prisma/client";
 import { generateCertificate } from "../utils/generateCertificate.js";
 
@@ -83,7 +83,7 @@ router.put(
       if (progress === 100) {
         certificateUrl = await generateCertificate(
           enrollment.student.name,
-          enrollment.course.title,
+          enrollment.course.title
         );
         await prisma.certificate.create({
           data: {
@@ -109,7 +109,7 @@ router.put(
         .status(500)
         .json({ message: "Error updating progress", error: error.message });
     }
-  },
+  }
 );
 
 /**
@@ -139,7 +139,7 @@ router.delete(
         .status(500)
         .json({ message: "Error unenrolling", error: error.message });
     }
-  },
+  }
 );
 
 /**
@@ -171,7 +171,7 @@ router.put(
         error: error.message,
       });
     }
-  },
+  }
 );
 
 /**
@@ -194,7 +194,7 @@ router.get(
         error: error.message,
       });
     }
-  },
+  }
 );
 
 export default router;

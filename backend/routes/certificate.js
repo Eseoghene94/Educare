@@ -1,5 +1,5 @@
 import express from "express";
-import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
+import { verifyToken, authorizeRoles } from "../middleware/authMiddleware.js";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();

@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
   // Function to handle login
   const login = async (email, password) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch("http://localhost:5000/api/auth/admin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
