@@ -84,7 +84,7 @@ function Hero() {
             </Link>
             <Link
               to="/signin"
-              className="px-6 md:px-8 py-3 text-lg md:text-xl border border-clr-primary text-white rounded-[20px] shadow-md hover:bg-white hover:text-black"
+              className="px-6 md:px-8 py-3 text-lg md:text-xl border border-blue-800 text-white rounded-[20px] shadow-md hover:bg-white hover:text-blue-950 font-medium"
             >
               Learn more
             </Link>
