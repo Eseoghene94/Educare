@@ -8,12 +8,12 @@ dotenv.config(); // Load environment variables
 if (typeof process === "undefined") {
   globalThis.process = { env: {} };
   console.warn(
-    "Warning: 'process' is not defined. A mock process object has been created."
+    "Warning: 'process' is not defined. A mock process object has been created.",
   );
 } else if (!process.env) {
   process.env = {};
   console.warn(
-    "Warning: 'process.env' is not defined. A mock environment object has been created."
+    "Warning: 'process.env' is not defined. A mock environment object has been created.",
   );
 }
 

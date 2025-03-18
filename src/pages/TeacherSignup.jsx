@@ -67,7 +67,7 @@ function TeacherSignup() {
     formData.append("experience", document.getElementById("experience").value);
     formData.append(
       "certifications",
-      document.getElementById("certifications").value
+      document.getElementById("certifications").value,
     );
     formData.append("linkedin", document.getElementById("linkedin").value);
     formData.append("twitter", document.getElementById("twitter").value);
@@ -89,7 +89,7 @@ function TeacherSignup() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token if required
           },
-        }
+        },
       );
 
       if (response.ok) {
