@@ -21,27 +21,30 @@ function Hero() {
           >
             <ul className="flex flex-col lg:flex-row lg:space-x-10 text-xl font-bold text-white">
               <li>
-                <Link to="/about" className="block py-2 ">
+                <Link to="/about" className="block py-2 hover:underline">
                   About us
                 </Link>
               </li>
               <li>
-                <Link to="/programs" className="block py-2 ">
+                <Link to="/programs" className="block py-2 hover:underline">
                   Programs
                 </Link>
               </li>
               <li>
-                <Link to="/Profile" className="block py-2 ">
+                <Link to="/Profile" className="block py-2 hover:underline">
                   Profile
                 </Link>
               </li>
               <li>
-                <Link to="/TeacherSignup" className="block py-2 ">
+                <Link
+                  to="/TeacherSignup"
+                  className="block py-2 hover:underline"
+                >
                   Become a Teacher
                 </Link>
               </li>
               <li>
-                <Link to="/signin" className="block py-2 ">
+                <Link to="/signin" className="block py-2 hover:underline">
                   Login
                 </Link>
               </li>
