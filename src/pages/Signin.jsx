@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-// import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 
 function Signin() {
-  const { login } = useAuth();
-  // const navigate = useNavigate();
+  const { login, handleGoogleLogin } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +15,6 @@ function Signin() {
   const fullText = "Empowering learners, transforming futures.";
   const [index, setIndex] = useState(0);
 
-  // Typing animation logic
   useEffect(() => {
     if (index < fullText.length) {
       const timeout = setTimeout(() => {
@@ -27,7 +25,6 @@ function Signin() {
     }
   }, [index, fullText]);
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -40,7 +37,7 @@ function Signin() {
 
   return (
     <div className="flex min-h-screen w-full">
-      {/* Left Side - Background Section */}
+      {/* Left Side */}
       <div
         className="hidden lg:flex w-1/2 bg-cover bg-center flex-col justify-center items-center text-white p-12"
         style={{ backgroundImage: "url('/home-background.jpg')" }}
@@ -63,7 +60,6 @@ function Signin() {
             We are happy to have you back...
           </p>
 
-          {/* Signin Form */}
           <form className="mt-6" onSubmit={handleSubmit}>
             <label htmlFor="email" className="block mb-2 text-sm font-medium">
               Enter email address
@@ -77,7 +73,6 @@ function Signin() {
               required
             />
 
-            {/* Password Input */}
             <label
               htmlFor="password"
               className="block mt-4 mb-2 text-sm font-medium"
@@ -118,20 +113,12 @@ function Signin() {
             <hr className="flex-grow border-gray-300" />
           </div>
 
-          {/* Social Login Buttons */}
+          {/* Google Login */}
           <div className="flex flex-col items-center space-y-2">
-            <button className="w-full max-w-xs border border-gray-300 p-3 rounded-lg flex items-center justify-center space-x-2">
-              <img src="/google-icon.png" alt="Google" className="w-5 h-5" />
-              <span>Login with Google</span>
-            </button>
-            <button className="w-full max-w-xs border border-gray-300 p-3 rounded-lg flex items-center justify-center space-x-2">
-              <img
-                src="/facebook-icon.png"
-                alt="Facebook"
-                className="w-5 h-5"
-              />
-              <span>Login with Facebook</span>
-            </button>
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() => console.error("Google Login Error")}
+            />
           </div>
 
           {/* Signup Link */}

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
-import FacebookLogin from "react-facebook-login";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
 
   const navigate = useNavigate();
 
-  // Function to handle login
+  // Function to handle login with email/password
   const login = async (email, password) => {
     try {
       // Hardcoded credentials for testing
@@ -47,14 +47,14 @@ export function AuthProvider({ children }) {
   };
 
   // Function to handle Google login
-  const handleGoogleLogin = async (googleResponse) => {
+  const handleGoogleLogin = async (credentialResponse) => {
     try {
-      const { profileObj } = googleResponse;
+      const decodedToken = jwtDecode(credentialResponse.credential);
       const mockUser = {
-        email: profileObj.email,
+        email: decodedToken.email,
         role: "user",
-        name: profileObj.name,
-        profilePic: profileObj.imageUrl,
+        name: decodedToken.name,
+        profilePic: decodedToken.picture,
       };
       setUser(mockUser);
       localStorage.setItem("user", JSON.stringify(mockUser));
@@ -64,36 +64,19 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Function to handle Facebook login
-  const handleFacebookLogin = async (facebookResponse) => {
-    try {
-      const { email, name, picture } = facebookResponse;
-      const mockUser = {
-        email,
-        role: "user",
-        name,
-        profilePic: picture.data.url,
-      };
-      setUser(mockUser);
-      localStorage.setItem("user", JSON.stringify(mockUser));
-      navigate("/profile");
-    } catch (error) {
-      console.error("Facebook Login Error:", error);
-    }
-  };
-
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        login,
-        logout,
-        handleGoogleLogin,
-        handleFacebookLogin,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <GoogleOAuthProvider clientId="136416221464-dhtjpqu7nnnoup59hm7cinlekcs1340a.apps.googleusercontent.com">
+      <AuthContext.Provider
+        value={{
+          user,
+          login,
+          logout,
+          handleGoogleLogin,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    </GoogleOAuthProvider>
   );
 }
 
