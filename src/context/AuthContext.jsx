@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
-import FacebookLogin from "react-facebook-login";
+// import { GoogleLogin } from "react-google-login";
+// import FacebookLogin from "react-facebook-login";
 
 const AuthContext = createContext();
 

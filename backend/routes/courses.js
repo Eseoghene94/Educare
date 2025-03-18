@@ -122,7 +122,7 @@ router.delete(
         .status(500)
         .json({ message: "Error deleting course", error: error.message });
     }
-  }
+  },
 );
 
 export default router;

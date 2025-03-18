@@ -1,5 +1,5 @@
-import { User } from 'lucide-react';
-import { useUser } from '../../context/UserContext';
+import { User } from "lucide-react";
+import { useUser } from "../../context/UserContext";
 
 export function UserProfile() {
   const { user } = useUser();
@@ -19,7 +19,7 @@ export function UserProfile() {
       )}
       <div>
         <p className="text-sm font-medium">
-          {user ? `Welcome ${user.name}` : 'Welcome'}
+          {user ? `Welcome ${user.name}` : "Welcome"}
         </p>
       </div>
     </div>

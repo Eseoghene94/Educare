@@ -71,12 +71,12 @@ function HeroTestimonial() {
               {/* Front Side */}
               <div className="flip-card-front">
                 <img
-                  src="/mentor-testimonial.png"
+                  src="/motunrayo-pic.jpg"
                   alt="mentor"
                   className="w-20 h-20 rounded-full border-4 border-[#1e3a8a] object-cover shadow-md"
                 />
                 <h3 className="text-xl font-bold mt-6 text-[#1e3a8a]">
-                  Emily Carter
+                  Adeneye Motunrayo
                 </h3>
                 <p className="mt-4 text-gray-700 leading-relaxed">
                   "EduCARE made learning fun!"
