@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Search, Menu } from "lucide-react";
 import { UserProfile } from "./UserProfile";
 import { useSidebar } from "../../context/SidebarContext";
