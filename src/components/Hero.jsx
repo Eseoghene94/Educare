@@ -63,7 +63,7 @@ function Hero() {
         {/* Hero Section */}
         <section className="flex flex-col items-center justify-center h-[80vh] text-white text-center px-6 animate-fade-up">
           <h2 className="text-5xl md:text-6xl font-bold">
-            Learn, <span className="text-yellow-500">Grow</span>
+            Learn, <span className="text-yellow-400">Grow</span>
           </h2>
           <h2 className="text-5xl md:text-6xl mt-2 font-bold"> &</h2>
           <h2 className="text-5xl md:text-6xl font-bold mt-2 md:mt-2">
@@ -77,7 +77,7 @@ function Hero() {
           <div className="flex flex-col md:flex-row space-y-4 md:space-x-5 md:space-y-0">
             <Link
               to="/signup"
-              className="px-6 md:px-8 text-lg md:text-xl py-3 bg-clr-primary text-white rounded-[20px] shadow-md hover:bg-blue-700"
+              className="px-6 md:px-8 text-lg md:text-xl py-3 bg-blue-600 text-white rounded-[20px] shadow-md hover:bg-blue-700"
             >
               Get Started
             </Link>
