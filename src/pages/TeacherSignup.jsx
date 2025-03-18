@@ -55,7 +55,22 @@ function TeacherSignup() {
       return; // Stop form submission if there are errors
     }
 
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("address", document.getElementById("address").value);
+    formData.append("phone", document.getElementById("phone").value);
+    formData.append("dob", document.getElementById("dob").value);
+    formData.append("gender", document.getElementById("gender").value);
+    formData.append("expertise", document.getElementById("expertise").value);
+    formData.append("experience", document.getElementById("experience").value);
+    formData.append(
+      "certifications",
+      document.getElementById("certifications").value
+    );
+    formData.append("linkedin", document.getElementById("linkedin").value);
+    formData.append("twitter", document.getElementById("twitter").value);
 
     if (cvFile) {
       formData.append("cv", cvFile);
@@ -66,13 +81,16 @@ function TeacherSignup() {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/admin/teacher", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token if required
-        },
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/admin/teacher/register",
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token if required
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();

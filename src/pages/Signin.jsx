@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+// import { useNavigate } from "react-router-dom";
 
 function Signin() {
+  const { login } = useAuth();
+  // const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  // const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
   // Typing animation state
   const [text, setText] = useState("");
@@ -16,11 +22,21 @@ function Signin() {
       const timeout = setTimeout(() => {
         setText((prev) => prev + fullText[index]);
         setIndex((prev) => prev + 1);
-      }, 50); // Adjust typing speed here (milliseconds per character)
-
+      }, 50);
       return () => clearTimeout(timeout);
     }
   }, [index, fullText]);
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      await login(email, password);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <div className="flex min-h-screen w-full">
@@ -34,41 +50,31 @@ function Signin() {
         <div className="mt-6 w-3/4 text-center">
           <p className="text-xl font-semibold">
             {text}
-            <span className="animate-blink">|</span>{" "}
-            {/* Blinking cursor effect */}
+            <span className="animate-blink">|</span>
           </p>
         </div>
       </div>
 
-      {/* Right Side - Signup Form */}
+      {/* Right Side - Signin Form */}
       <div className="w-full lg:w-1/2 flex justify-center items-center p-8">
         <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
           <h3 className="text-2xl font-semibold text-center">Welcome Back</h3>
           <p className="text-gray-500 text-sm text-center">
-            We are happy to have you back....
+            We are happy to have you back...
           </p>
 
-          {/* Signup Form */}
-          <form className="mt-6">
-            {/* <label htmlFor="name" className="block mb-2 text-sm font-medium">
-              Enter name
-            </label>
-            <input
-              type="text"
-              id="name"
-              className="w-full border border-gray-300 rounded-lg p-2"
-            /> */}
-
-            <label
-              htmlFor="email"
-              className="block mt-4 mb-2 text-sm font-medium"
-            >
+          {/* Signin Form */}
+          <form className="mt-6" onSubmit={handleSubmit}>
+            <label htmlFor="email" className="block mb-2 text-sm font-medium">
               Enter email address
             </label>
             <input
               type="email"
               id="email"
               className="w-full border border-gray-300 rounded-lg p-2"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
 
             {/* Password Input */}
@@ -83,6 +89,9 @@ function Signin() {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 className="w-full border border-gray-300 rounded-lg p-2 pr-10"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
               <span
                 className="absolute right-3 top-3 cursor-pointer text-gray-600"
@@ -92,8 +101,13 @@ function Signin() {
               </span>
             </div>
 
-            <button className="w-full bg-blue-600 text-white text-lg font-semibold py-3 mt-6 rounded-lg hover:bg-blue-700">
-              Create Account
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white text-lg font-semibold py-3 mt-6 rounded-lg hover:bg-blue-700"
+            >
+              Sign In
             </button>
           </form>
 
@@ -120,7 +134,7 @@ function Signin() {
             </button>
           </div>
 
-          {/* Sign In Link */}
+          {/* Signup Link */}
           <p className="text-center text-sm text-gray-500 mt-4">
             Don't have an account?{" "}
             <a href="/signup" className="text-blue-500 font-semibold">

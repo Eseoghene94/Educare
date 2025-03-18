@@ -1,9 +1,8 @@
 import "./App.css";
 import { Routes, Route } from "react-router";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
-// import Features from "./pages/Features";
-// import Faq from "./pages/Faq";
-// import Contact from "./pages/Contact";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import NotFound from "./pages/NotFound";
@@ -12,20 +11,21 @@ import Profile from "./pages/Profile";
 
 function App() {
   return (
-    <>
-      {/* <Header /> */}
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/features" element={<Features />} /> */}
-        {/* <Route path="/faq" element={<Faq />} /> */}
-        {/* <Route path="/contact" element={<Contact />} /> */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/TeacherSignup" element={<TeacherSignup />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/Profile" element={<Profile />} />
+
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/dashboard" element={<Profile />} />
+        </Route>
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
 

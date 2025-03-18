@@ -1,132 +1,144 @@
 import express from "express";
 import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
 import { PrismaClient } from "@prisma/client";
-// import { generateCertificate } from "../utils/generateCertificate.js";
 import Joi from "joi";
-import multer from "multer";
-import path from "path";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 
+dotenv.config();
 const prisma = new PrismaClient();
 const router = express.Router();
 
-// Set up multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Save files to the "uploads" directory
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to filename
-  },
-});
+router.use(helmet()); // Secure HTTP headers
 
-const upload = multer({
-  storage,
-  fileFilter: (req, file, cb) => {
-    if (file.fieldname === "profilePicture") {
-      if (file.mimetype.startsWith("image/")) {
-        cb(null, true);
-      } else {
-        cb(new Error("Only image files are allowed for profile pictures"));
-      }
-    } else if (file.fieldname === "cv") {
-      if (
-        file.mimetype === "application/pdf" ||
-        file.mimetype === "application/msword" ||
-        file.mimetype ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      ) {
-        cb(null, true);
-      } else {
-        cb(new Error("Only PDF or DOC files are allowed for CVs"));
-      }
-    }
-  },
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
+// Rate Limiting to Prevent Brute Force Attacks
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Max requests per window per IP
+  message: "Too many requests, please try again later.",
 });
+router.use(limiter);
 
-// Input validation schemas
-const teacherSchema = Joi.object({
-  name: Joi.string().required(),
+// Function to generate JWT token
+const generateToken = (user) => {
+  return jwt.sign(
+    { id: user.id, email: user.email, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: "24h" }
+  );
+};
+
+// Login Validation Schema
+const loginSchema = Joi.object({
   email: Joi.string().email().required(),
-  bio: Joi.string().optional(),
-  address: Joi.string().optional(),
-  phone: Joi.string().optional(),
-  dob: Joi.date().optional(),
-  gender: Joi.string().valid("male", "female", "other").optional(),
-  expertise: Joi.string().optional(),
-  experience: Joi.number().optional(),
-  certifications: Joi.string().optional(),
-  linkedin: Joi.string().uri().optional(),
-  twitter: Joi.string().uri().optional(),
+  password: Joi.string().min(6).required(),
 });
 
 /**
- * @route POST /api/admin/teacher
- * @desc Add a new teacher
- * @access Admin Only
+ * @route POST /api/admin/login/admin
+ * @desc Admin Login
  */
-router.post(
-  "/teacher",
-  verifyToken,
-  authorizeRoles("ADMIN"),
-  upload.fields([
-    { name: "profilePicture", maxCount: 1 },
-    { name: "cv", maxCount: 1 },
-  ]),
-  async (req, res) => {
-    try {
-      const { error, value } = teacherSchema.validate(req.body);
-      if (error) {
-        return res.status(400).json({ message: error.details[0].message });
-      }
+router.post("/login/admin", async (req, res) => {
+  try {
+    const { error, value } = loginSchema.validate(req.body);
+    if (error)
+      return res.status(400).json({ message: error.details[0].message });
 
-      const {
-        name,
-        email,
-        bio,
-        address,
-        phone,
-        dob,
-        gender,
-        expertise,
-        experience,
-        certifications,
-        linkedin,
-        twitter,
-      } = value;
+    const { email, password } = value;
+    const admin = await prisma.user.findUnique({
+      where: { email, role: "ADMIN" },
+    });
 
-      const profilePicture = req.files["profilePicture"]?.[0];
-      const cvFile = req.files["cv"]?.[0];
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
 
-      const teacher = await prisma.teacher.create({
-        data: {
-          name,
-          email,
-          bio,
-          address,
-          phone,
-          dob: dob ? new Date(dob) : null,
-          gender,
-          expertise,
-          experience: experience ? parseInt(experience) : null,
-          certifications,
-          linkedin,
-          twitter,
-          profilePicture: profilePicture ? profilePicture.path : null,
-          cv: cvFile ? cvFile.path : null,
-        },
-      });
+    const isPasswordValid = await bcrypt.compare(password, admin.password);
+    if (!isPasswordValid)
+      return res.status(401).json({ message: "Invalid credentials" });
 
-      res.status(201).json({ message: "Teacher added successfully", teacher });
-    } catch (error) {
-      console.error("Error adding teacher:", error);
-      res
-        .status(500)
-        .json({ message: "Error adding teacher", error: error.message });
-    }
-  },
-);
+    const token = generateToken(admin);
 
-// Other routes remain unchanged...
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
+    res.json({ message: "Admin login successful", token, admin });
+  } catch (error) {
+    console.error("Admin login error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+/**
+ * @route POST /api/admin/login/teacher
+ * @desc Teacher Login
+ */
+router.post("/login/teacher", async (req, res) => {
+  try {
+    const { error, value } = loginSchema.validate(req.body);
+    if (error)
+      return res.status(400).json({ message: error.details[0].message });
+
+    const { email, password } = value;
+    const teacher = await prisma.teacher.findUnique({ where: { email } });
+
+    if (!teacher) return res.status(404).json({ message: "Teacher not found" });
+
+    const isPasswordValid = await bcrypt.compare(password, teacher.password);
+    if (!isPasswordValid)
+      return res.status(401).json({ message: "Invalid credentials" });
+
+    const token = generateToken(teacher);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
+    res.json({ message: "Teacher login successful", token, teacher });
+  } catch (error) {
+    console.error("Teacher login error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+/**
+ * @route POST /api/admin/login/user
+ * @desc Regular User Login
+ */
+router.post("/login/user", async (req, res) => {
+  try {
+    const { error, value } = loginSchema.validate(req.body);
+    if (error)
+      return res.status(400).json({ message: error.details[0].message });
+
+    const { email, password } = value;
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid)
+      return res.status(401).json({ message: "Invalid credentials" });
+
+    const token = generateToken(user);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
+    res.json({ message: "User login successful", token, user });
+  } catch (error) {
+    console.error("User login error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 export default router;
