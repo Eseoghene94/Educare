@@ -1,32 +1,28 @@
-import React from "react";
-import Header from "../components/MainHeader";
-import Sidebar from "../components/MainSideBar";
-import MainContent from "../components/MainContent";
-import Footer from "../components/MainFooter";
+import { MainLayout } from "../components/Layout/MainLayout";
+import { CourseGrid } from "../components/Courses/CourseGrid";
+import { SidebarProvider } from "../context/SidebarContext";
+import { UserProvider } from "../context/UserContext";
 
-function Profile() {
+function App() {
   return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Sidebar (Fixed and Always Visible) */}
-      <div className="fixed inset-y-0 left-0 w-16 lg:w-64 bg-white shadow-lg z-50">
-        <Sidebar />
-      </div>
-
-      {/* Main Content Area */}
-      <div className="flex flex-col flex-1 ml-16 lg:ml-64 overflow-hidden">
-        {/* Header */}
-        <Header />
-
-        {/* Main Content (Scrollable if needed) */}
-        <div className="flex-1 overflow-auto p-4">
-          <MainContent />
-        </div>
-
-        {/* Footer (Fixed at Bottom) */}
-        <Footer />
-      </div>
-    </div>
+    <UserProvider>
+      <SidebarProvider>
+        <MainLayout>
+          <div className="space-y-4 md:space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg md:text-xl font-semibold text-gray-900">
+                Courses
+              </h2>
+              <button className="text-gray-600 hover:text-gray-900">
+                View All
+              </button>
+            </div>
+            <CourseGrid />
+          </div>
+        </MainLayout>
+      </SidebarProvider>
+    </UserProvider>
   );
 }
 
-export default Profile;
+export default App;
