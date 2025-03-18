@@ -8,7 +8,7 @@ function Hero() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="hero text-clr-txt-primary bg-gray-900 min-h-screen">
+    <div className="hero text-clr-txt-primary  bg-gray-900 min-h-screen">
       <div className="container mx-auto px-6">
         <header className="flex justify-between items-center py-6">
           <img src="./logo.svg" alt="logo" className="h-10" />
@@ -19,7 +19,7 @@ function Hero() {
               menuOpen ? "block" : "hidden"
             } absolute lg:relative  top-0 max-md:top-20 left-0 w-full lg:w-auto bg-gray-900 lg:bg-transparent p-5 lg:p-0 shadow-lg lg:shadow-none`}
           >
-            <ul className="flex flex-col lg:flex-row lg:space-x-10 text-xl font-bold text-white">
+            <ul className="flex flex-col lg:flex-row lg:space-x-10 text-base font-bold text-white">
               <li>
                 <Link to="/about" className="block py-2 hover:underline">
                   About us
