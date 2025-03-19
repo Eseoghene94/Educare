@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap");
+
+.font-dancing {
+  font-family: "Dancing Script", cursive;
+}
+
 .hero {
   background: url("/home-background.jpg") no-repeat center center/cover;
   min-height: 100vh;

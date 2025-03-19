@@ -65,16 +65,22 @@ function Hero() {
 
         {/* Hero Section */}
         <section className="flex flex-col items-center justify-center h-[80vh] text-white text-center px-6 animate-fade-up">
-          <h2 className="text-5xl md:text-6xl font-bold">Learn, Grow</h2>
-          <h2 className="text-5xl md:text-6xl mt-2 font-bold"> & </h2>
-          <h2 className="text-5xl md:text-6xl font-bold mt-2 md:mt-2">
+          <h2 className="text-6xl md:text-8xl font-bold font-dancing">
+            Learn, Grow
+          </h2>
+          <h2 className="text-5xl md:text-6xl mt-2 font-bold font-dancing">
+            {" "}
+            &{" "}
+          </h2>
+          <h2 className="text-5xl md:text-6xl font-bold mt-2 md:mt-2 font-dancing">
             Unlock Opportunities
           </h2>
-          <p className="text-lg md:text-xl my-8">
+          <p className="text-lg md:text-xl my-8 font-poppins">
             Develop skills, gain real-world experience,{" "}
             <br className="hidden md:block" /> and connect with mentors and job
             opportunities.
           </p>
+
           <div className="flex flex-col md:flex-row space-y-4 md:space-x-5 md:space-y-0">
             <Link
               to="/signup"
