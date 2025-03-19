@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className=" py-8 px-6 bg-clr-secondary">
+    <footer className=" py-8 px-6 bg-blue-300 text-white">
       <div className=" max-w-6xl mx-auto  grid grid-cols-2 md:grid-cols-5 gap-6 text-black">
         <div>
           <h3 className="font-semibold text-lg">About us</h3>
@@ -126,7 +126,9 @@ function Footer() {
 
         <div>
           <h3 className="font-semibold text-lg">Follow us on</h3>
-          <div className="mt-2 space-y-2">
+          <div className="mt-2 flex space-x-4">
+            {" "}
+            {/* Flexbox for horizontal layout */}
             <img src="/linkedin-icon.png" alt="LinkedIn" className="w-6 h-6" />
             <img src="./facebook-icon.png" alt="Facebook" className="w-6 h-6" />
             <img
@@ -138,7 +140,7 @@ function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-black mt-6 pt-4 text-center text-sm">
+      <div className="border-t border-black mt-6 pt-4 text-center text-sm text-blue-900">
         <p>Copyright &copy; 2025, EduCare.com. All rights reserved.</p>
       </div>
     </footer>
