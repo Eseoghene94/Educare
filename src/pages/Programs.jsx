@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navigation from "../components/Navigation";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import Footer from "../components/Footer";
 
 const categories = [
   { name: "New Courses", count: 12 },
@@ -37,96 +38,149 @@ const courses = [
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     category: "Design",
   },
+  {
+    id: 5,
+    title: "Advanced JavaScript",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    category: "Web Dev",
+  },
+  {
+    id: 6,
+    title: "Machine Learning Basics",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    category: "AI/ML",
+  },
+  {
+    id: 7,
+    title: "Digital Marketing",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    category: "Marketing",
+  },
 ];
+
 function Programs() {
   const [activeCategory, setActiveCategory] = useState("New Courses");
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % courses.length);
+    setCurrentIndex((prev) => (prev + 4) % courses.length);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + courses.length) % courses.length);
+    setCurrentIndex((prev) => (prev - 4 + courses.length) % courses.length);
   };
+
+  const visibleCourses = courses.slice(currentIndex, currentIndex + 4);
+
   return (
-    <div className="min-h-screen  bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       <Navigation />
       <div className="container py-6">
-        <section className="flex justify-between  my-20 ">
-          <div className=" mb-6 ">
-            <h2 className="text-6xl font-bold">
-              Take Your Knowledge a Degree Further
+        {/* Hero Section */}
+        <section className="flex flex-col md:flex-row justify-between my-5 md:my-12 px-8">
+          <div className="mb-5 md:mb-0">
+            <h2 className="text-4xl md:text-6xl font-bold text-gray-900">
+              Take Your <span className="text-clr-primary">Knowledge</span> a
+              Degree Further
             </h2>
           </div>
-          <div>
-            <h3 className="bg-clr-primary w-36  text-white py-2 px-4 rounded-md">
+          <div className="max-w-md">
+            <h3 className="bg-clr-primary w-36 text-white py-2 px-4 rounded-md text-center">
               Our Courses
             </h3>
-            <p className="text-gray-600">
+            <p className="text-gray-600 mt-4">
               Make education work for you with flexible online courses and
               mentorship.
             </p>
           </div>
         </section>
+
         {/* Course Categories */}
         <div className="flex justify-center space-x-4 mb-6">
           {categories.map((cat) => (
             <button
               key={cat.name}
               onClick={() => setActiveCategory(cat.name)}
-              className={`px-4 py-2 rounded-md ${activeCategory === cat.name ? "bg-clr-primary text-white" : "bg-gray-200 text-gray-800"}`}
+              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+                activeCategory === cat.name
+                  ? "bg-clr-primary text-white shadow-lg"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              }`}
             >
-              {cat.name} {cat.count && `(${cat.count})`}
+              {cat.name} {cat.count !== null && `(${cat.count})`}
             </button>
           ))}
         </div>
 
         {/* Course Carousel */}
         <div className="relative flex items-center justify-center space-x-4 px-8">
-          <button onClick={prevSlide} className="p-2 bg-gray-300 rounded-full">
-            <ChevronLeft size={24} />
+          <button
+            onClick={prevSlide}
+            className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
+          >
+            <ChevronLeft size={24} className="text-gray-700" />
           </button>
 
-          <div className="w-[400px] bg-white p-4 shadow-lg rounded-lg ">
-            <div>
-              <img
-                src={courses[currentIndex].image}
-                alt={courses[currentIndex].title}
-                className="w-full h-48 object-cover"
-              />
-            </div>
-            <h3 className="text-sm w-min bg-blue-100 mt-4 px-2 py-1 rounded-full">
-              {courses[currentIndex].category}
-            </h3>
-            <h3 className="text-lg font-semibold mt-2">
-              {courses[currentIndex].title}
-            </h3>
+          <div className="flex space-x-6 overflow-hidden">
+            {visibleCourses.map((course) => (
+              <div
+                key={course.id}
+                className="w-[250px] md:w-[300px] bg-white p-6 shadow-lg rounded-xl flex-shrink-0 transform hover:scale-105 transition-transform duration-300"
+              >
+                <div className="overflow-hidden rounded-lg">
+                  <img
+                    src={course.image}
+                    alt={`${course.title} course image`}
+                    className="w-full h-48 object-cover hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <span className="inline-block text-sm bg-blue-100 mt-4 px-3 py-1 rounded-full text-blue-700">
+                  {course.category}
+                </span>
+                <h2 className="text-lg font-semibold mt-2 text-gray-900">
+                  {course.title}
+                </h2>
+              </div>
+            ))}
           </div>
 
-          <button onClick={nextSlide} className="p-2 bg-gray-300 rounded-full">
-            <ChevronRight size={24} />
+          <button
+            onClick={nextSlide}
+            className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
+          >
+            <ChevronRight size={24} className="text-gray-700" />
           </button>
         </div>
 
         {/* Upgrade Section */}
-        <section className="mt-10 grid grid-cols-2 py-6 px-4 rounded-lg ">
-          <div className="flex items-center text-center flex-col">
-            <h2 className="text-2xl font-semibold">
-              Upgrade Your Skills with Free Online Courses
-            </h2>
-            <p className="mt-2">
-              Ready to gain in demand skills to kick start your career? The
-              EduCare Start Programme to give you a seamless experience.{" "}
-            </p>
-            <button className="mt-4 px-6 py-2 bg-clr-primary text-white rounded-md font-medium">
-              Start Now
-            </button>
+        <section className="mt-20 py-12 px-8 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="text-center md:text-left md:w-1/2">
+              <h2 className="text-3xl font-semibold text-white">
+                Upgrade Your Skills with Free Online Courses
+              </h2>
+              <p className="mt-4 text-blue-100">
+                Ready to gain in-demand skills to kickstart your career? The
+                EduCare Start Programme gives you a seamless experience.
+              </p>
+              <button className="mt-6 px-8 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-lg">
+                Start Now
+              </button>
+            </div>
+            <div className="mt-8 md:mt-0 md:w-1/2 transform rotate-3 hover:rotate-0 transition-transform duration-300">
+              <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                alt="Upgrade Skills"
+                className="w-full h-64 object-cover rounded-xl shadow-2xl"
+              />
+            </div>
           </div>
-          {/* <div className=" h-[300px] object-cover">
-              <img src="/program.jpg" alt="program" />
-            </div> */}
         </section>
+
+        <Footer />
       </div>
     </div>
   );
