@@ -11,7 +11,7 @@ function Navigation() {
           <div className="flex-shrink-0 flex items-center">
             <Link to="/" className="flex items-center space-x-2">
               {/* <GraduationCap className="h-8 w-8 text-blue-600" /> */}
-              <span className="text-xl font-bold text-gray-900">EduCARE</span>
+              <img src="/logo-black.svg" alt="logo-black" />
             </Link>
           </div>
 

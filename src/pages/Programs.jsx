@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navigation from "../components/Navigation";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 
 const categories = [
   { name: "New Courses", count: 12 },
@@ -162,13 +163,16 @@ function Programs() {
               <h2 className="text-3xl font-semibold text-white">
                 Upgrade Your Skills with Free Online Courses
               </h2>
-              <p className="mt-4 text-blue-100">
+              <p className="my-4 text-blue-100">
                 Ready to gain in-demand skills to kickstart your career? The
                 EduCare Start Programme gives you a seamless experience.
               </p>
-              <button className="mt-6 px-8 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-lg">
+              <Link
+                to="/signup"
+                className="mt-10 px-8 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-lg"
+              >
                 Start Now
-              </button>
+              </Link>
             </div>
             <div className="mt-8 md:mt-0 md:w-1/2 transform rotate-3 hover:rotate-0 transition-transform duration-300">
               <img
