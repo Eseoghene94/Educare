@@ -72,7 +72,7 @@ function Hero() {
             {" "}
             &{" "}
           </h2>
-          <h2 className="text-5xl md:text-6xl font-bold mt-2 md:mt-2 font-dancing">
+          <h2 className="text-6xl md:text-8xl font-bold mt-2 md:mt-2 font-dancing">
             Unlock Opportunities
           </h2>
           <p className="text-lg md:text-xl my-8 font-poppins">
