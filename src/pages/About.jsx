@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // Assuming you are using react-router-dom for navigation
 import { LiaTimesSolid } from "react-icons/lia"; // Importing the close icon
 import { IoMenuOutline } from "react-icons/io5"; // Importing the menu icon
@@ -12,6 +12,31 @@ import {
 } from "lucide-react";
 import Footer from "../components/Footer";
 
+// Floating Icons Component
+function FloatingIcons() {
+  const icons = [BookOpen, Users, Trophy, Target, Heart, GraduationCap];
+
+  return (
+    <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      {icons.map((Icon, index) => (
+        <div
+          key={index}
+          className="absolute text-blue-200 opacity-50 animate-float"
+          style={{
+            top: `${Math.random() * 100}vh`,
+            left: `${Math.random() * 100}vw`,
+            animationDuration: `${Math.random() * 10 + 10}s`,
+            animationDelay: `${Math.random() * 5}s`,
+          }}
+        >
+          <Icon className="w-12 h-12" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ValueCard Component
 function ValueCard({ icon: Icon, title, description }) {
   return (
     <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
@@ -24,11 +49,15 @@ function ValueCard({ icon: Icon, title, description }) {
   );
 }
 
+// Main App Component
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Floating Icons */}
+      <FloatingIcons />
+
       {/* Header Section */}
       <header className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -247,10 +276,11 @@ function App() {
           </div>
         </div>
       </section>
+
       {/* Footer */}
       <Footer />
     </div>
   );
 }
 
-export default About;
+export default App;
