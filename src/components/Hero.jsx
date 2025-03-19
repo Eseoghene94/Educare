@@ -26,7 +26,7 @@ function Hero() {
                 </Link>
               </li>
               <li>
-                <Link to="/programs" className="block py-2 hover:underline">
+                <Link to="/Programs" className="block py-2 hover:underline">
                   Programs
                 </Link>
               </li>
