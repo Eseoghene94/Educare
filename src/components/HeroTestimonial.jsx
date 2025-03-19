@@ -97,7 +97,7 @@ function HeroTestimonial() {
         <div className="flex justify-center items-center py-12">
           <Link
             to="/signup"
-            className="px-8 py-3 bg-gradient-to-r from-[#1e3a8a] to-[#3b82f6] text-white text-lg font-semibold rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+            className="px-8 py-3 bg-clr-primary text-white text-lg font-semibold rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
           >
             Join the Movement
           </Link>
