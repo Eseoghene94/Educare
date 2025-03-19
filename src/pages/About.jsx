@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Assuming you are using react-router-dom for navigation
 import { LiaTimesSolid } from "react-icons/lia"; // Importing the close icon
 import { IoMenuOutline } from "react-icons/io5"; // Importing the menu icon
@@ -65,7 +65,7 @@ function App() {
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
               <Link to="/" className="flex items-center space-x-2">
-                <GraduationCap className="h-8 w-8 text-blue-600" />
+                {/* <GraduationCap className="h-8 w-8 text-blue-600" /> */}
                 <span className="text-xl font-bold text-gray-900">EduCARE</span>
               </Link>
             </div>
