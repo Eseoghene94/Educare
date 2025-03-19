@@ -20,7 +20,7 @@ function Navigation() {
             <Link to="/about" className="text-gray-600 hover:text-gray-900">
               About us
             </Link>
-            <Link to="/programs" className="text-gray-600 hover:text-gray-900">
+            <Link to="/Programs" className="text-gray-600 hover:text-gray-900">
               Programs
             </Link>
             <Link to="/profile" className="text-gray-600 hover:text-gray-900">
