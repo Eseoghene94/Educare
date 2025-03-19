@@ -5,9 +5,9 @@ export default {
     extend: {
       colors: {
         clr: {
-          base: "var(--base)",
           background: "var(--background)",
           secondary: "var(--secondary-background)",
+          primary: "var(--primary)",
         },
       },
     },

@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Home,
@@ -16,9 +15,22 @@ import {
 } from "lucide-react";
 import { Link } from "./SidebarLink";
 import { useSidebar } from "../../context/SidebarContext";
+import { useAuth } from "../../context/AuthContext"; // Import AuthContext (Assuming you're using context for auth)
+import { useNavigate } from "react-router-dom"; // Import Next.js router
 
 export function Sidebar() {
   const { isExpanded } = useSidebar();
+  const { logout } = useAuth(); // Get the logout function from AuthContext
+  const navigate = useNavigate(); // Use Next.js router for redirection
+
+  const handleLogout = async () => {
+    try {
+      await logout(); // Call the logout function
+      navigate("/signin"); // Redirect to the login page after logout
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   const menuItems = [
     { icon: Home, label: "Home", href: "/" },
@@ -36,7 +48,7 @@ export function Sidebar() {
 
   return (
     <aside
-      className={`bg-white border-r border-gray-200 h-screen fixed left-0   ${isExpanded ? "top-[4rem] md:top-0" : "top-0"} flex flex-col justify-between scrollbar-hidden transition-all duration-300 ${isExpanded ? "w-64" : "w-20"}`}
+      className={`bg-white border-r border-gray-200 h-screen fixed left-0 ${isExpanded ? "top-[4rem] md:top-0" : "top-0"} flex flex-col justify-between scrollbar-hidden transition-all duration-300 ${isExpanded ? "w-64" : "w-20"}`}
     >
       <div className="p-4 overflow-y-auto scrollbar-hidden">
         {menuItems.map((item) => (
@@ -50,13 +62,13 @@ export function Sidebar() {
         ))}
       </div>
       <div className="p-4 border-t border-gray-200">
-        <Link
-          Icon={LogOut}
-          label="Logout"
-          href="/logout"
-          isExpanded={isExpanded}
-          className="text-white bg-[var(--clr-primary)] hover:bg-[var(--clr-primary)]/90"
-        />
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-2 text-white bg-[var(--clr-primary)] hover:bg-[var(--clr-primary)]/90 p-2 rounded-md"
+        >
+          <LogOut size={20} />
+          {isExpanded && <span>Logout</span>}
+        </button>
       </div>
     </aside>
   );

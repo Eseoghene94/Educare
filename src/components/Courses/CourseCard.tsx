@@ -1,3 +1,4 @@
+import React from "react";
 interface CourseCardProps {
   title: string;
   image: string;

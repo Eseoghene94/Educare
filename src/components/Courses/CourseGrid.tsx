@@ -1,15 +1,15 @@
+import React from "react";
 import { CourseCard } from "./CourseCard";
-
 const courses = [
   {
-    title: "Data Analytics 2.1",
+    title: "Data Analytics",
     image:
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
   },
   {
     title: "Animation for Beginners",
     image:
-      "https://images.unsplash.com/photo-1560829228-a5c5f8b4ff8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "https://unsplash.com/photos/a-woman-is-painting-a-picture-in-an-art-studio-9_h93uTe5MM",
   },
   {
     title: "Cybersecurity Fundamentals",

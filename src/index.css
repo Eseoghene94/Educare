@@ -9,6 +9,7 @@
     --background: #ffffff;
     --secondary-background: #d4d4d4;
     --primary: #305ad2;
+    --clr-secondary: #f0f3fb;
     --clr-primary: #4f46e5;
   }
 }
@@ -107,7 +108,8 @@ p {
   font-size: 6rem;
   font-weight: bold;
   color: white;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.8),
     0 0 20px rgba(255, 255, 255, 0.6);
   z-index: 10;
 }
@@ -120,7 +122,9 @@ p {
   border: none;
   border-radius: 25px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   z-index: 10;
 }
 
