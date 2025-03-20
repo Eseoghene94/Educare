@@ -65,6 +65,12 @@ function Signup() {
     console.log("Google login success:", response);
   };
 
+  // Example usage of handleGoogleLogin
+  <GoogleLogin
+    onSuccess={handleGoogleLogin}
+    onError={() => console.log("Google login failed")}
+  />;
+
   return (
     <div className="flex min-h-screen w-full">
       {/* Left Side - Background Section */}
