@@ -50,8 +50,8 @@ const courses = [
   },
   {
     id: 7,
-    title: "Archieture",
-    image: "./digital-marketing.jpg",
+    title: "Finance",
+    image: "./finance.jpg",
     category: "Marketing",
   },
   {
@@ -111,7 +111,7 @@ function Programs() {
             <button
               key={cat.name}
               onClick={() => setActiveCategory(cat.name)}
-              className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+              className={`px-3 md:px-6 m py-3 rounded-full text-sm font-medium transition-all duration-300 ${
                 activeCategory === cat.name
                   ? "bg-clr-primary text-white shadow-lg"
                   : "bg-gray-200 text-gray-800 hover:bg-gray-300"
@@ -131,11 +131,11 @@ function Programs() {
             <ChevronLeft size={24} className="text-gray-700" />
           </button>
 
-          <div className="flex space-x-6 overflow-hidden">
+          <div className="flex my-8 space-x-6 h-[100%]  overflow-hidden">
             {visibleCourses.map((course) => (
               <div
                 key={course.id}
-                className="w-[250px] md:w-[300px] bg-white p-6 shadow-lg rounded-xl flex-shrink-0 transform hover:scale-105 transition-transform duration-300"
+                className="w-[280px] md:w-[300px] bg-white p-6  rounded-xl flex-shrink-0 transform hover:scale-105 transition-transform duration-300"
               >
                 <div className="overflow-hidden rounded-lg">
                   <img

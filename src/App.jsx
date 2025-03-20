@@ -10,6 +10,7 @@ import TeacherSignup from "./pages/TeacherSignup";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Programs from "./pages/Programs";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<Profile />} />
-          <Route path="/dashboard" element={<Profile />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </AuthProvider>

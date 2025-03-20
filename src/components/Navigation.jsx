@@ -16,7 +16,7 @@ function Navigation() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-8">
             <Link to="/about" className="text-gray-600 hover:text-gray-900">
               About us
             </Link>
@@ -43,7 +43,7 @@ function Navigation() {
           {/* Mobile menu button */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+            className="lg:hidden rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100"
           >
             <span className="sr-only">Open main menu</span>
             {menuOpen ? (
