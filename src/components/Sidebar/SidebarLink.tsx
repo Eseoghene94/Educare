@@ -23,7 +23,7 @@ export function Link({
     >
       <Icon size={24} className="min-w-[24px]" />
       <span
-        className={`text-sm font-medium transition-all ${isExpanded ? "opacity-100" : "opacity-0 w-0 overflow-hidden"}`}
+        className={`text-sm hidden md:block font-medium transition-all ${isExpanded ? "opacity-100" : "opacity-0 w-0 overflow-hidden"}`}
       >
         {label}
       </span>

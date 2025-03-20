@@ -20,7 +20,7 @@ function App() {
 
               {/* Dropdown Button */}
               <button
-                className="flex justify-between items-center gap-1 text-gray-600 hover:text-gray-900 border-clr-primary border-2 w-48 rounded-sm py-2 px-4"
+                className="flex justify-between items-center gap-1 text-gray-600 hover:text-gray-900 border-clr-primary border-2 w-48 h-10 rounded-sm p-2 "
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 View All{" "}

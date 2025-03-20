@@ -48,7 +48,7 @@ export function Sidebar() {
 
   return (
     <aside
-      className={`bg-white border-r border-gray-200 h-screen fixed left-0 ${isExpanded ? "top-[4rem] md:top-0" : "top-0"} flex flex-col justify-between scrollbar-hidden transition-all duration-300 ${isExpanded ? "w-64" : "w-20"}`}
+      className={`bg-white border-r border-gray-200 h-screen fixed left-0 ${isExpanded ? "top-[4rem] md:top-0" : "top-0"} flex flex-col justify-between items-center scrollbar-hidden transition-all duration-300 w-20 ${isExpanded && "w-14 md:w-64"}`}
     >
       <div className="p-4 overflow-y-auto scrollbar-hidden">
         {menuItems.map((item) => (
