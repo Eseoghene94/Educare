@@ -2,25 +2,48 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 function TeacherSignup() {
+  // State management
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    address: "",
+    phone: "",
+    dob: "",
+    gender: "",
+    expertise: "",
+    experience: "",
+    certifications: "",
+    linkedin: "",
+    twitter: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [cvFile, setCvFile] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleFileChange = (e) => {
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  // Handle CV file upload
+  const handleCvChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      if (
-        file.type === "application/pdf" ||
-        file.type === "application/msword" ||
-        file.type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      ) {
+      const validTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      ];
+      if (validTypes.includes(file.type)) {
         if (file.size <= 5 * 1024 * 1024) {
           // 5MB limit
           setCvFile(file);
@@ -35,81 +58,114 @@ function TeacherSignup() {
     }
   };
 
+  // Handle profile picture upload
+  const handleProfilePictureChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const validTypes = ["image/jpeg", "image/png"];
+      if (validTypes.includes(file.type)) {
+        if (file.size <= 2 * 1024 * 1024) {
+          // 2MB limit
+          setProfilePicture(file);
+        } else {
+          alert("Profile picture must be less than 2MB.");
+          e.target.value = "";
+        }
+      } else {
+        alert("Please upload a valid image (JPEG or PNG).");
+        e.target.value = "";
+      }
+    }
+  };
+
+  // Form validation
   const validateForm = () => {
     const newErrors = {};
-    if (!name) newErrors.name = "Name is required";
-    if (!email || !/\S+@\S+\.\S+/.test(email))
-      newErrors.email = "Invalid email address";
-    if (!password || password.length < 8)
+    if (!formData.name) newErrors.name = "Name is required";
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Valid email is required";
+    if (!formData.password || formData.password.length < 8)
       newErrors.password = "Password must be at least 8 characters";
-    if (password !== confirmPassword)
+    if (formData.password !== formData.confirmPassword)
       newErrors.confirmPassword = "Passwords do not match";
+    if (!formData.phone || !/^\d{10}$/.test(formData.phone))
+      newErrors.phone = "Valid 10-digit phone number is required";
+    if (!formData.dob) newErrors.dob = "Date of birth is required";
+    if (!formData.gender) newErrors.gender = "Gender is required";
+    if (!formData.expertise) newErrors.expertise = "Expertise is required";
+    if (!formData.experience) newErrors.experience = "Experience is required";
+    if (!formData.certifications)
+      newErrors.certifications = "Certifications are required";
+    if (!cvFile) newErrors.cv = "CV is required";
+    if (!profilePicture)
+      newErrors.profilePicture = "Profile picture is required";
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // Form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (!validateForm()) {
-      return; // Stop form submission if there are errors
+      setIsLoading(false);
+      return;
     }
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("address", document.getElementById("address").value);
-    formData.append("phone", document.getElementById("phone").value);
-    formData.append("dob", document.getElementById("dob").value);
-    formData.append("gender", document.getElementById("gender").value);
-    formData.append("expertise", document.getElementById("expertise").value);
-    formData.append("experience", document.getElementById("experience").value);
-    formData.append(
-      "certifications",
-      document.getElementById("certifications").value,
-    );
-    formData.append("linkedin", document.getElementById("linkedin").value);
-    formData.append("twitter", document.getElementById("twitter").value);
-
-    if (cvFile) {
-      formData.append("cv", cvFile);
-    }
-
-    if (profilePicture) {
-      formData.append("profilePicture", profilePicture);
-    }
+    // Prepare form data for submission
+    const submissionData = new FormData();
+    Object.keys(formData).forEach((key) => {
+      submissionData.append(key, formData[key]);
+    });
+    if (cvFile) submissionData.append("cv", cvFile);
+    if (profilePicture) submissionData.append("profilePicture", profilePicture);
 
     try {
       const response = await fetch(
         "http://localhost:5000/api/admin/teacher/register",
         {
           method: "POST",
-          body: formData,
+          body: submissionData,
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Add token if required
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        },
+        }
       );
 
+      const result = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
         alert("Teacher registered successfully!");
-        console.log("Teacher data:", data);
-        // Reset form fields
-        setName("");
-        setEmail("");
-        setPassword("");
-        setConfirmPassword("");
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          address: "",
+          phone: "",
+          dob: "",
+          gender: "",
+          expertise: "",
+          experience: "",
+          certifications: "",
+          linkedin: "",
+          twitter: "",
+        });
         setCvFile(null);
         setProfilePicture(null);
+        setErrors({});
+        e.target.reset(); // Reset form inputs
       } else {
-        const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        throw new Error(result.message || "Registration failed");
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("An error occurred while submitting the form.");
+      console.error("Registration error:", error);
+      alert(`Error: ${error.message}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -139,264 +195,190 @@ function TeacherSignup() {
             Fill in your details to get started with EduCare.
           </p>
 
-          {/* Signup Form */}
           <form className="mt-6" onSubmit={handleSubmit}>
-            {/* Full Name */}
-            <label htmlFor="name" className="block mb-2 text-sm font-medium">
-              Full Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              required
-            />
-            {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name}</p>
-            )}
+            {/* Form Fields */}
+            {[
+              { id: "name", label: "Full Name", type: "text" },
+              { id: "address", label: "Address", type: "textarea" },
+              { id: "phone", label: "Phone Number", type: "tel" },
+              { id: "dob", label: "Date of Birth", type: "date" },
+              {
+                id: "gender",
+                label: "Gender",
+                type: "select",
+                options: [
+                  { value: "", label: "Select Gender" },
+                  { value: "male", label: "Male" },
+                  { value: "female", label: "Female" },
+                  { value: "other", label: "Other" },
+                ],
+              },
+              { id: "email", label: "Email Address", type: "email" },
+              {
+                id: "password",
+                label: "Password",
+                type: "password",
+                showToggle: true,
+                toggleState: showPassword,
+                toggleFunc: setShowPassword,
+              },
+              {
+                id: "confirmPassword",
+                label: "Confirm Password",
+                type: "password",
+                showToggle: true,
+                toggleState: showConfirmPassword,
+                toggleFunc: setShowConfirmPassword,
+              },
+              {
+                id: "expertise",
+                label: "Expertise (e.g., Math, Science)",
+                type: "text",
+              },
+              {
+                id: "experience",
+                label: "Teaching Experience (years)",
+                type: "number",
+              },
+              { id: "certifications", label: "Certifications", type: "text" },
+            ].map((field) => (
+              <div key={field.id} className="mb-4">
+                <label
+                  htmlFor={field.id}
+                  className="block mb-2 text-sm font-medium"
+                >
+                  {field.label}
+                </label>
+                {field.type === "textarea" ? (
+                  <textarea
+                    id={field.id}
+                    name={field.id}
+                    value={formData[field.id]}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-lg p-2"
+                    rows="3"
+                    required
+                  />
+                ) : field.type === "select" ? (
+                  <select
+                    id={field.id}
+                    name={field.id}
+                    value={formData[field.id]}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-lg p-2"
+                    required
+                  >
+                    {field.options.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <div className="relative">
+                    <input
+                      type={
+                        field.showToggle
+                          ? field.toggleState
+                            ? "text"
+                            : "password"
+                          : field.type
+                      }
+                      id={field.id}
+                      name={field.id}
+                      value={formData[field.id]}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-lg p-2 pr-10"
+                      required
+                      {...(field.type === "number" ? { min: "0" } : {})}
+                    />
+                    {field.showToggle && (
+                      <span
+                        className="absolute right-3 top-3 cursor-pointer text-gray-600"
+                        onClick={() => field.toggleFunc(!field.toggleState)}
+                      >
+                        {field.toggleState ? (
+                          <EyeOff size={20} />
+                        ) : (
+                          <Eye size={20} />
+                        )}
+                      </span>
+                    )}
+                  </div>
+                )}
+                {errors[field.id] && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors[field.id]}
+                  </p>
+                )}
+              </div>
+            ))}
 
-            {/* ADDRESS */}
-            <label htmlFor="address" className="block mb-2 text-sm font-medium">
-              Address
-            </label>
-            <textarea
-              id="address"
-              name="address"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              rows="3"
-              required
-            ></textarea>
-
-            {/* PHONE NUMBER */}
-            <label htmlFor="phone" className="block mb-2 text-sm font-medium">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              pattern="[0-9]{10}" // Example: 10-digit phone number
-              required
-            />
-
-            {/* DOB */}
-            <label htmlFor="dob" className="block mb-2 text-sm font-medium">
-              Date of Birth
-            </label>
-            <input
-              type="date"
-              id="dob"
-              name="dob"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              required
-            />
-
-            {/* GENDER */}
-            <label htmlFor="gender" className="block mb-2 text-sm font-medium">
-              Gender
-            </label>
-            <select
-              id="gender"
-              name="gender"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-
-            {/* Email Address */}
-            <label htmlFor="email" className="block mb-2 text-sm font-medium">
-              Email Address
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              required
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email}</p>
-            )}
-
-            {/* Password */}
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium"
-            >
-              Password
-            </label>
-            <div className="relative mb-4">
+            {/* File Uploads */}
+            <div className="mb-4">
+              <label
+                htmlFor="profilePicture"
+                className="block mb-2 text-sm font-medium"
+              >
+                Profile Picture
+              </label>
               <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-2 pr-10"
+                type="file"
+                id="profilePicture"
+                name="profilePicture"
+                onChange={handleProfilePictureChange}
+                accept=".jpg,.jpeg,.png"
+                className="w-full border border-gray-300 rounded-lg p-2"
                 required
               />
-              <span
-                className="absolute right-3 top-3 cursor-pointer text-gray-600"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </span>
+              {errors.profilePicture && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.profilePicture}
+                </p>
+              )}
             </div>
-            {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password}</p>
-            )}
 
-            {/* Confirm Password */}
-            <label
-              htmlFor="confirm-password"
-              className="block mb-2 text-sm font-medium"
-            >
-              Confirm Password
-            </label>
-            <div className="relative mb-4">
+            <div className="mb-4">
+              <label htmlFor="cv" className="block mb-2 text-sm font-medium">
+                Upload CV (PDF or DOC)
+              </label>
               <input
-                type={showConfirmPassword ? "text" : "password"}
-                id="confirm-password"
-                name="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg p-2 pr-10"
+                type="file"
+                id="cv"
+                name="cv"
+                onChange={handleCvChange}
+                accept=".pdf,.doc,.docx"
+                className="w-full border border-gray-300 rounded-lg p-2"
                 required
               />
-              <span
-                className="absolute right-3 top-3 cursor-pointer text-gray-600"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              >
-                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </span>
+              {errors.cv && (
+                <p className="text-red-500 text-sm mt-1">{errors.cv}</p>
+              )}
             </div>
-            {errors.confirmPassword && (
-              <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
-            )}
-
-            {/* Expertise */}
-            <label
-              htmlFor="expertise"
-              className="block mb-2 text-sm font-medium"
-            >
-              Expertise (e.g., Math, Science, English)
-            </label>
-            <input
-              type="text"
-              id="expertise"
-              name="expertise"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              required
-            />
-
-            {/* Teaching Experience */}
-            <label
-              htmlFor="experience"
-              className="block mb-2 text-sm font-medium"
-            >
-              Teaching Experience (in years)
-            </label>
-            <input
-              type="number"
-              id="experience"
-              name="experience"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              min="0"
-              required
-            />
-
-            {/* Certifications */}
-            <label
-              htmlFor="certifications"
-              className="block mb-2 text-sm font-medium"
-            >
-              Certifications (e.g. BSc, TEFL, TESOL, State License)
-            </label>
-            <input
-              type="text"
-              id="certifications"
-              name="certifications"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              required
-            />
-
-            {/* Profile Pic */}
-            <label
-              htmlFor="profile-picture"
-              className="block mb-2 text-sm font-medium"
-            >
-              Profile Picture
-            </label>
-            <input
-              type="file"
-              id="profile-picture"
-              name="profilePicture"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              accept=".jpg,.jpeg,.png"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (
-                  file &&
-                  (file.type === "image/jpeg" || file.type === "image/png")
-                ) {
-                  setProfilePicture(file);
-                } else {
-                  alert("Please upload a valid image (JPEG or PNG).");
-                  e.target.value = "";
-                }
-              }}
-              required
-            />
-
-            {/* CV Upload */}
-            <label htmlFor="cv" className="block mb-2 text-sm font-medium">
-              Upload CV (PDF or DOC)
-            </label>
-            <input
-              type="file"
-              id="cv"
-              name="cv"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              accept=".pdf,.doc,.docx"
-              onChange={handleFileChange}
-              required
-            />
 
             {/* Social Links */}
-            <label
-              htmlFor="linkedin"
-              className="block mb-2 text-sm font-medium"
-            >
-              LinkedIn Profile
-            </label>
-            <input
-              type="url"
-              id="linkedin"
-              name="linkedin"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              placeholder="https://linkedin.com/in/username"
-            />
-
-            <label htmlFor="twitter" className="block mb-2 text-sm font-medium">
-              Twitter Profile
-            </label>
-            <input
-              type="url"
-              id="twitter"
-              name="twitter"
-              className="w-full border border-gray-300 rounded-lg p-2 mb-4"
-              placeholder="https://twitter.com/username"
-            />
+            {[
+              { id: "linkedin", label: "LinkedIn Profile" },
+              { id: "twitter", label: "Twitter Profile" },
+            ].map((field) => (
+              <div key={field.id} className="mb-4">
+                <label
+                  htmlFor={field.id}
+                  className="block mb-2 text-sm font-medium"
+                >
+                  {field.label}
+                </label>
+                <input
+                  type="url"
+                  id={field.id}
+                  name={field.id}
+                  value={formData[field.id]}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded-lg p-2"
+                  placeholder={`https://${field.id}.com/username`}
+                />
+              </div>
+            ))}
 
             {/* Terms and Conditions */}
             <div className="flex items-center mb-4">
@@ -419,19 +401,21 @@ function TeacherSignup() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white text-lg font-semibold py-3 mt-6 rounded-lg hover:bg-blue-700"
+              disabled={isLoading}
+              className={`w-full bg-blue-600 text-white text-lg font-semibold py-3 mt-6 rounded-lg hover:bg-blue-700 ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             >
-              Create Account
+              {isLoading ? "Submitting..." : "Create Account"}
             </button>
-            <div>
-              {/* Sign In Link */}
-              <p className="text-center text-sm text-gray-500 mt-4">
-                Already have an account?{" "}
-                <a href="/signin" className="text-blue-500 font-semibold">
-                  Sign in!
-                </a>
-              </p>
-            </div>
+
+            {/* Sign In Link */}
+            <p className="text-center text-sm text-gray-500 mt-4">
+              Already have an account?{" "}
+              <a href="/signin" className="text-blue-500 font-semibold">
+                Sign in!
+              </a>
+            </p>
           </form>
         </div>
       </div>
