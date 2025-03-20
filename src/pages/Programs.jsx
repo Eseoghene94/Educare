@@ -79,23 +79,29 @@ function Programs() {
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev - 3 + courses.length) % courses.length);
   };
+  const nextMobileSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % courses.length);
+  };
+
+  const prevMobileSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + courses.length) % courses.length);
+  };
 
   const visibleCourses = courses.slice(currentIndex, currentIndex + 4);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      <div className="container py-6">
+      <div className=" py-6">
         {/* Hero Section */}
-        <section className="flex flex-col md:flex-row justify-between my-5 md:my-12 px-8">
+        <section className="flex md:max-w-7xl mx-auto flex-col md:flex-row justify-between my-5 md:my-12 px-8">
           <div className="mb-5 md:mb-0">
-            <h2 className="text-4xl md:text-6xl font-bold text-gray-900">
-              Take Your <span className="text-clr-primary">Knowledge</span> a
-              Degree Further
+            <h2 className="text-4xl  md:text-6xl font-bold text-gray-900">
+              Take Your Knowledge a Degree Further
             </h2>
           </div>
           <div className="max-w-md">
-            <h3 className="bg-clr-primary w-36 text-white py-2 px-4 rounded-md text-center">
+            <h3 className="bg-[#dbeafe] w-36 text-black py-2 px-4 rounded-md text-center">
               Our Courses
             </h3>
             <p className="text-gray-600 mt-4">
@@ -111,10 +117,10 @@ function Programs() {
             <button
               key={cat.name}
               onClick={() => setActiveCategory(cat.name)}
-              className={`px-3 md:px-6 m py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+              className={`px-3 md:px-6  py-3 rounded-full text-[12px] md:text-sm font-medium transition-all duration-300 ${
                 activeCategory === cat.name
                   ? "bg-clr-primary text-white shadow-lg"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                  : "bg-[#dbeafe] text-gray-800 hover:bg-gray-300"
               }`}
             >
               {cat.name} {cat.count !== null && `(${cat.count})`}
@@ -123,19 +129,19 @@ function Programs() {
         </div>
 
         {/* Course Carousel */}
-        <div className="relative flex items-center justify-center space-x-4 px-8">
+        <div className="relative flex items-center justify-center space-x-4 px-3 md:px-4">
           <button
             onClick={prevSlide}
-            className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
+            className="hidden md:block p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
           >
             <ChevronLeft size={24} className="text-gray-700" />
           </button>
 
-          <div className="flex my-8 space-x-6 h-[100%]  overflow-hidden">
+          <div className="flex   my-8 space-x-4 md:space-x-6 h-[100%]  overflow-hidden">
             {visibleCourses.map((course) => (
               <div
                 key={course.id}
-                className="w-[280px] md:w-[300px] bg-white p-6  rounded-xl flex-shrink-0 transform hover:scale-105 transition-transform duration-300"
+                className="w-[280px] md:w-[300px] bg-white p-4 md:p-6  rounded-xl flex-shrink-0 transform hover:scale-105 transition-transform duration-300"
               >
                 <div className="overflow-hidden rounded-lg">
                   <img
@@ -156,26 +162,40 @@ function Programs() {
 
           <button
             onClick={nextSlide}
+            className=" hidden md:block p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
+          >
+            <ChevronRight size={24} className="text-gray-700" />
+          </button>
+        </div>
+        <div className="md:hidden relative flex items-center justify-center space-x-4 px-3 md:px-4">
+          <button
+            onClick={prevMobileSlide}
             className="p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
+          >
+            <ChevronLeft size={24} className="text-gray-700" />
+          </button>
+          <button
+            onClick={nextMobileSlide}
+            className=" p-3 bg-white rounded-full shadow-md hover:bg-gray-100 transition-colors"
           >
             <ChevronRight size={24} className="text-gray-700" />
           </button>
         </div>
 
         {/* Upgrade Section */}
-        <section className="mt-20 py-12 px-8 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500">
+        <section className="mt-10 md:max-w-7xl mx-auto md:mt:20 py-12 px-8 rounded-xl text-black">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="text-center md:text-left md:w-1/2">
-              <h2 className="text-3xl font-semibold text-white">
+              <h2 className="text-3xl font-semibold">
                 Upgrade Your Skills with Free Online Courses
               </h2>
-              <p className="my-4 text-blue-100">
+              <p className="mt-4 mb-8 ">
                 Ready to gain in-demand skills to kickstart your career? The
                 EduCare Start Programme gives you a seamless experience.
               </p>
               <Link
                 to="/signup"
-                className="mt-10 px-8 py-3 bg-white text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-lg"
+                className="mt-10 px-8 py-3 bg-[#dbeafe] hover:bg-clr-primary hover:text-white  text-blue-600 rounded-lg font-medium hover:bg-blue-50 transition-colors shadow-lg"
               >
                 Start Now
               </Link>

@@ -61,13 +61,19 @@ export function Sidebar() {
           />
         ))}
       </div>
-      <div className="p-4 border-t border-gray-200">
+      <div className=" p-4 border-t border-gray-200">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-2 text-white bg-[var(--clr-primary)] hover:bg-[var(--clr-primary)]/90 p-2 rounded-md"
+          className="hidden  w-full md:flex items-center gap-2 text-white bg-clr-primary p-2 rounded-md"
         >
           <LogOut size={20} />
           {isExpanded && <span>Logout</span>}
+        </button>
+        <button
+          onClick={handleLogout}
+          className="md:hidden -mt-[7.5rem] w-full flex items-center gap-2 text-white bg-clr-primary p-2 rounded-md"
+        >
+          <LogOut size={20} />
         </button>
       </div>
     </aside>
