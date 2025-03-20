@@ -21,44 +21,50 @@ const courses = [
   {
     id: 2,
     title: "React Development Essentials",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "./reactjs.jpg",
     category: "Web Dev",
   },
   {
     id: 3,
     title: "Data Science with Python",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "./data-science.jpg",
     category: "AI/ML",
   },
   {
     id: 4,
     title: "UI/UX Design Basics",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "ux/ui.jpg",
     category: "Design",
   },
   {
     id: 5,
     title: "Advanced JavaScript",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "./advanced-javascript.jpg",
     category: "Web Dev",
   },
   {
     id: 6,
     title: "Machine Learning Basics",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "./ML.jpg",
     category: "AI/ML",
   },
   {
     id: 7,
-    title: "Digital Marketing",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    title: "Archieture",
+    image: "./digital-marketing.jpg",
     category: "Marketing",
+  },
+  {
+    id: 8,
+    title: "Architecture",
+    image: "./drawing.jpg",
+    category: "Design",
+  },
+  {
+    id: 9,
+    title: "Photography Essentials",
+    image: "./photography.jpg",
+    category: "Photography",
   },
 ];
 
@@ -67,11 +73,11 @@ function Programs() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 4) % courses.length);
+    setCurrentIndex((prev) => (prev + 3) % courses.length);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 4 + courses.length) % courses.length);
+    setCurrentIndex((prev) => (prev - 3 + courses.length) % courses.length);
   };
 
   const visibleCourses = courses.slice(currentIndex, currentIndex + 4);

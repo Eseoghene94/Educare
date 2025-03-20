@@ -30,16 +30,37 @@ function App() {
               {isDropdownOpen && (
                 <ul className="absolute right-0 mt-2 top-10 w-48 bg-white border border-gray-200 rounded-lg shadow-md z-10">
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    All Courses
+                    View All
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    My Enrolled Courses
+                    Architecture
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Popular Courses
+                    Photography
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Newest Courses
+                    Art
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Cybersecurity
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Content Writing
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Auto-Mechanic
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    UI/UX Design
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Finance
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Dance
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Baker
                   </li>
                 </ul>
               )}
