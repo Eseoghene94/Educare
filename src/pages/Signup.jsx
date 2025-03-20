@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
-// Assuming GoogleLogin is imported from a library like react-google-login
 import { GoogleLogin } from "@react-oauth/google";
 
 function Signup() {
@@ -11,6 +10,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // UI state
   const [showPassword, setShowPassword] = useState(false);
@@ -36,40 +36,40 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true);
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
+      setIsLoading(false);
       return;
     }
 
     try {
-      // Replace with your actual signup API call
-      const response = await fetch("/api/signup", {
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, phone, password }),
       });
 
+      const data = await response.json();
       if (!response.ok) {
-        throw new Error("Signup failed");
+        throw new Error(data.message || "Signup failed");
       }
-      // Handle successful signup (e.g., redirect to login)
+
+      // Handle successful signup (e.g., redirect to signin)
+      window.location.href = "/signin";
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // Google login handler
   const handleGoogleLogin = (response) => {
-    // Handle Google login success
-    console.log("Google login success:", response);
+    console.log("Google signup success:", response);
+    // Add logic to send Google signup data to backend if needed
   };
-
-  // Example usage of handleGoogleLogin
-  <GoogleLogin
-    onSuccess={handleGoogleLogin}
-    onError={() => console.log("Google login failed")}
-  />;
 
   return (
     <div className="flex min-h-screen w-full">
@@ -116,6 +116,7 @@ function Signup() {
               onChange={(e) => setName(e.target.value)}
               className="w-full border border-gray-300 rounded-lg p-2"
               required
+              disabled={isLoading}
             />
 
             <label
@@ -131,6 +132,7 @@ function Signup() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full border border-gray-300 rounded-lg p-2"
               required
+              disabled={isLoading}
             />
 
             <label
@@ -146,6 +148,7 @@ function Signup() {
               onChange={(e) => setPhone(e.target.value)}
               className="w-full border border-gray-300 rounded-lg p-2"
               required
+              disabled={isLoading}
             />
 
             {/* Password Input */}
@@ -163,6 +166,7 @@ function Signup() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg p-2 pr-10"
                 required
+                disabled={isLoading}
               />
               <span
                 className="absolute right-3 top-3 cursor-pointer text-gray-600"
@@ -187,6 +191,7 @@ function Signup() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg p-2 pr-10"
                 required
+                disabled={isLoading}
               />
               <span
                 className="absolute right-3 top-3 cursor-pointer text-gray-600"
@@ -198,9 +203,12 @@ function Signup() {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white text-lg font-semibold py-3 mt-6 rounded-lg hover:bg-blue-700"
+              className={`w-full bg-blue-600 text-white text-lg font-semibold py-3 mt-6 rounded-lg hover:bg-blue-700 ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={isLoading}
             >
-              Create Account
+              {isLoading ? "Creating Account..." : "Create Account"}
             </button>
           </form>
 
@@ -211,20 +219,15 @@ function Signup() {
             <hr className="flex-grow border-gray-300" />
           </div>
 
-          {/* Social Login Buttons */}
+          {/* Google Login */}
           <div className="flex flex-col items-center space-y-2">
-            <button className="w-full max-w-xs border border-gray-300 p-3 rounded-lg flex items-center justify-center space-x-2">
-              <img src="/google-icon.png" alt="Google" className="w-5 h-5" />
-              <span>Login with Google</span>
-            </button>
-            <button className="w-full max-w-xs border border-gray-300 p-3 rounded-lg flex items-center justify-center space-x-2">
-              <img
-                src="/facebook-icon.png"
-                alt="Facebook"
-                className="w-5 h-5"
-              />
-              <span>Login with Facebook</span>
-            </button>
+            <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() => {
+                console.error("Google signup failed");
+                setError("Google signup failed. Please try again.");
+              }}
+            />
           </div>
 
           {/* Sign In Link */}

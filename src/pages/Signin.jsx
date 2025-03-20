@@ -9,6 +9,7 @@ function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Typing animation state
   const [text, setText] = useState("");
@@ -23,15 +24,21 @@ function Signin() {
       }, 50);
       return () => clearTimeout(timeout);
     }
-  }, [index, fullText]);
+  }, [index]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true);
+
     try {
+      // Attempt login and log the attempt
       await login(email, password);
+      // If login succeeds, you might redirect or update state in AuthContext
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Login failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -71,6 +78,7 @@ function Signin() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={isLoading}
             />
 
             <label
@@ -87,6 +95,7 @@ function Signin() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={isLoading}
               />
               <span
                 className="absolute right-3 top-3 cursor-pointer text-gray-600"
@@ -100,9 +109,12 @@ function Signin() {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white text-lg font-semibold py-3 mt-6 rounded-lg hover:bg-blue-700"
+              className={`w-full bg-blue-600 text-white text-lg font-semibold py-3 mt-6 rounded-lg hover:bg-blue-700 ${
+                isLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={isLoading}
             >
-              Sign In
+              {isLoading ? "Signing In..." : "Sign In"}
             </button>
           </form>
 
@@ -117,7 +129,10 @@ function Signin() {
           <div className="flex flex-col items-center space-y-2">
             <GoogleLogin
               onSuccess={handleGoogleLogin}
-              onError={() => console.error("Google Login Error")}
+              onError={() => {
+                console.error("Google Login Error");
+                setError("Google login failed. Please try again.");
+              }}
             />
           </div>
 
