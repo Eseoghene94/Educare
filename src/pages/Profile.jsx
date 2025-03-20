@@ -3,7 +3,7 @@ import { MainLayout } from "../components/Layout/MainLayout";
 import { CourseGrid } from "../components/Courses/CourseGrid";
 import { SidebarProvider } from "../context/SidebarContext";
 import { UserProvider } from "../context/UserContext";
-import { ChevronDown, Eye, EyeClosed, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 function App() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
