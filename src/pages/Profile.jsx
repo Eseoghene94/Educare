@@ -3,7 +3,7 @@ import { MainLayout } from "../components/Layout/MainLayout";
 import { CourseGrid } from "../components/Courses/CourseGrid";
 import { SidebarProvider } from "../context/SidebarContext";
 import { UserProvider } from "../context/UserContext";
-import { ChevronDown, Eye } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 function App() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -20,26 +20,48 @@ function App() {
 
               {/* Dropdown Button */}
               <button
-                className="flex justify-between items-center gap-1 text-gray-600 hover:text-gray-900 border-clr-primary border-2 w-48 rounded-sm py-2 px-4"
+                className="flex justify-between items-center gap-1 text-gray-600 hover:text-gray-900 border-clr-primary border-2 w-48 h-10 rounded-sm p-2 "
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                View All <Eye size={18} />
+                View All{" "}
+                {isDropdownOpen ? <Eye size={18} /> : <EyeOff size={18} />}
               </button>
 
               {/* Dropdown Menu */}
               {isDropdownOpen && (
                 <ul className="absolute right-0 mt-2 top-10 w-48 bg-white border border-gray-200 rounded-lg shadow-md z-10">
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    All Courses
+                    View All
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    My Enrolled Courses
+                    Architecture
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Popular Courses
+                    Photography
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    Newest Courses
+                    Art
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Cybersecurity
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Content Writing
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Auto-Mechanic
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    UI/UX Design
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Finance
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Dance
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Baker
                   </li>
                 </ul>
               )}

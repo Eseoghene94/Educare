@@ -15,8 +15,8 @@ export function MainLayout({ children }: MainLayoutProps) {
       <Sidebar />
       <Header />
       <main
-        className={`pt-16 transition-all duration-300 ${
-          isExpanded ? "pl-64" : "pl-20"
+        className={`pt-16 pl-20 transition-all duration-300 ${
+          isExpanded && " pl-20 md:pl-64"
         }`}
       >
         <div className="p-4 md:p-6">{children}</div>

@@ -44,7 +44,7 @@ function HeroTestimonial() {
               {/* Front Side */}
               <div className="flip-card-front">
                 <img
-                  src="/mentor-testimonial.png"
+                  src="/gloria.jpg"
                   alt="mentor"
                   className="w-20 h-20 rounded-full border-4 border-[#1e3a8a] object-cover shadow-md"
                 />

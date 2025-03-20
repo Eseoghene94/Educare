@@ -8,8 +8,7 @@ const courses = [
   },
   {
     title: "Animation for Beginners",
-    image:
-      "https://unsplash.com/photos/a-woman-is-painting-a-picture-in-an-art-studio-9_h93uTe5MM",
+    image: "./animation.jpg",
   },
   {
     title: "Cybersecurity Fundamentals",

@@ -207,10 +207,18 @@ function Signup() {
 
           {/* Social Login Buttons */}
           <div className="flex flex-col items-center space-y-2">
-            <GoogleLogin
-              onSuccess={handleGoogleLogin}
-              onError={() => console.error("Google Login Error")}
-            />
+            <button className="w-full max-w-xs border border-gray-300 p-3 rounded-lg flex items-center justify-center space-x-2">
+              <img src="/google-icon.png" alt="Google" className="w-5 h-5" />
+              <span>Login with Google</span>
+            </button>
+            <button className="w-full max-w-xs border border-gray-300 p-3 rounded-lg flex items-center justify-center space-x-2">
+              <img
+                src="/facebook-icon.png"
+                alt="Facebook"
+                className="w-5 h-5"
+              />
+              <span>Login with Facebook</span>
+            </button>
           </div>
 
           {/* Sign In Link */}

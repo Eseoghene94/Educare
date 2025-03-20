@@ -11,8 +11,9 @@ function Hero() {
     <div className="hero text-clr-txt-primary  bg-gray-900 min-h-screen">
       <div className="container mx-auto px-6">
         <header className="flex justify-between items-center py-6">
-          <img src="./logo.svg" alt="logo" className="h-10" />
-
+          <Link to="/" className="flex items-center space-x-2">
+            <img src="./logo.svg" alt="logo" className="h-10" />
+          </Link>
           {/* Navigation */}
           <nav
             className={`lg:flex ${
