@@ -1,6 +1,6 @@
-const { check } = require("express-validator");
+import { check } from "express-validator";
 
-exports.validateTeacherRegistration = [
+export const validateTeacherRegistration = [
   check("name").trim().notEmpty().withMessage("Name is required"),
   check("email")
     .isEmail()
@@ -27,4 +27,4 @@ exports.validateTeacherRegistration = [
     .withMessage("Certifications are required"),
 ];
 
-module.exports = exports;
+export default validateTeacherRegistration;
