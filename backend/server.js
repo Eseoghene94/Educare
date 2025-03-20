@@ -24,6 +24,9 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bo
 app.use(cors({ origin: "http://localhost:3000", credentials: true })); // Enable CORS for frontend
 app.use(helmet()); // Add security headers
 
+// ✅ Serve static files for uploads
+app.use("/uploads", express.static("uploads"));
+
 // ✅ Rate Limiting (Prevent abuse)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -51,7 +54,8 @@ app.use((req, res) => {
 });
 
 // ✅ Global Error Handler (Handles all errors in one place)
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
+  // Added 'next' parameter for proper middleware signature
   console.error("Error:", err.stack);
   res.status(500).json({ message: "Something went wrong on the server" });
 });
