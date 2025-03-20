@@ -1,77 +1,147 @@
 import express from "express";
+import { PrismaClient } from "@prisma/client";
+import Joi from "joi";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import process from "process";
+import { check, validationResult } from "express-validator";
 
 dotenv.config();
-
+const prisma = new PrismaClient();
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET;
 
-if (!JWT_SECRET) {
-  throw new Error("JWT_SECRET is not defined in the environment variables.");
-}
-
-// Middleware to verify JWT token
-const authMiddleware = (req, res, next) => {
-  try {
-    // Extract token from cookies or Authorization header
-    const token =
-      req.cookies?.token ||
-      (req.headers.authorization?.startsWith("Bearer ")
-        ? req.headers.authorization.split(" ")[1]
-        : null);
-
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Unauthorized: No token provided" });
-    }
-
-    // Verify the token
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    return res.status(403).json({ message: "Invalid or expired token" });
-  }
-};
-
-// Middleware to authorize based on user roles
-const authorizeRoles = (allowedRoles) => {
-  return (req, res, next) => {
-    if (!req.user || !req.user.role) {
-      return res
-        .status(403)
-        .json({ message: "Access denied: No user role found" });
-    }
-
-    if (!allowedRoles.includes(req.user.role)) {
-      return res
-        .status(403)
-        .json({ message: "Access denied: Unauthorized role" });
-    }
-
-    next();
-  };
-};
-
-// Sample authentication route
-router.post("/login", (req, res) => {
-  const { username, password } = req.body;
-
-  // Mock user authentication (replace with actual user validation)
-  if (username === "admin" && password === "password") {
-    const token = jwt.sign({ username, role: "admin" }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
-    return res.json({ token });
-  }
-
-  res.status(401).json({ message: "Invalid credentials" });
+// Validation schema for signup
+const signupSchema = Joi.object({
+  name: Joi.string().min(2).required(),
+  email: Joi.string().email().required(),
+  phone: Joi.string()
+    .pattern(/^\d{10}$/)
+    .required(),
+  password: Joi.string().min(6).required(),
 });
 
-// Export middlewares and router correctly
-export { authMiddleware, authorizeRoles };
+// Signup validation middleware
+const validateSignup = [
+  check("name")
+    .trim()
+    .isLength({ min: 2 })
+    .withMessage("Name must be at least 2 characters"),
+  check("email")
+    .isEmail()
+    .normalizeEmail()
+    .withMessage("Valid email is required"),
+  check("phone")
+    .matches(/^\d{10}$/)
+    .withMessage("Phone must be a 10-digit number"),
+  check("password")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters"),
+];
+
+// Generate JWT token
+const generateToken = (user) => {
+  return jwt.sign(
+    { id: user.id, email: user.email, role: "USER" }, // Default role as USER
+    process.env.JWT_SECRET,
+    { expiresIn: "24h" }
+  );
+};
+
+// Log signup attempt
+const logSignupAttempt = async (name, email, phone, success, req) => {
+  const ipAddress = req.ip || req.headers["x-forwarded-for"] || "unknown";
+  await prisma.signupAttempt.create({
+    data: {
+      name,
+      email,
+      phone,
+      success,
+      ipAddress,
+    },
+  });
+};
+
+/**
+ * @route POST /api/auth/signup
+ * @desc Register a new user
+ * @access Public
+ */
+router.post("/signup", validateSignup, async (req, res) => {
+  try {
+    // Check validation results
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      await logSignupAttempt(
+        req.body.name,
+        req.body.email,
+        req.body.phone,
+        false,
+        req
+      );
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { error, value } = signupSchema.validate(req.body);
+    if (error) {
+      await logSignupAttempt(
+        req.body.name,
+        req.body.email,
+        req.body.phone,
+        false,
+        req
+      );
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
+    const { name, email, phone, password } = value;
+
+    // Check if email already exists
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      await logSignupAttempt(name, email, phone, false, req);
+      return res.status(400).json({ message: "Email already registered" });
+    }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create user
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        phone,
+        password: hashedPassword,
+        role: "USER", // Default role
+      },
+    });
+
+    const token = generateToken(user);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
+    await logSignupAttempt(name, email, phone, true, req);
+    res
+      .status(201)
+      .json({ message: "Signup successful", token, userId: user.id });
+  } catch (error) {
+    console.error("Signup error:", error);
+    await logSignupAttempt(
+      req.body.name,
+      req.body.email,
+      req.body.phone,
+      false,
+      req
+    ).catch((e) => console.error("Failed to log attempt:", e));
+    res.status(500).json({ message: "Server error during signup" });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
 export default router;
