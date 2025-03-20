@@ -54,7 +54,7 @@ app.use((req, res) => {
 });
 
 // ✅ Global Error Handler (Handles all errors in one place)
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // Added 'next' parameter for proper middleware signature
   console.error("Error:", err.stack);
   res.status(500).json({ message: "Something went wrong on the server" });

@@ -1,12 +1,23 @@
-const express = require("express");
-const router = express.Router();
-const { validationResult } = require("express-validator");
-const multer = require("multer");
-const path = require("path");
-const bcrypt = require("bcryptjs");
-const pool = require("../config/db");
-const auth = require("../middleware/auth");
-const { validateTeacherRegistration } = require("../utils/validation");
+// import express from "express";
+import { Router } from "express";
+const router = Router();
+import { validationResult } from "express-validator";
+import multer from "multer";
+// import path from "path";
+import bcrypt from "bcryptjs";
+import auth from "../middleware/auth";
+import { Pool } from "pg";
+
+// Initialize PostgreSQL connection pool
+const pool = new Pool({
+  user: "your_db_user",
+  host: "your_db_host",
+  database: "your_db_name",
+  password: "your_db_password",
+  port: 5432, // Default PostgreSQL port
+});
+// Removed duplicate declaration of auth
+import { validateTeacherRegistration } from "../utils/validation";
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -134,5 +145,5 @@ router.post(
     }
   }
 );
-
-module.exports = router;
+export default router;
+// Removed CommonJS export as ES module syntax is already used
