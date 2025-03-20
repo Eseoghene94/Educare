@@ -4,6 +4,7 @@ import { CourseGrid } from "../components/Courses/CourseGrid";
 import { SidebarProvider } from "../context/SidebarContext";
 import { UserProvider } from "../context/UserContext";
 import { Eye, EyeOff } from "lucide-react";
+import MentorsCarousel from "../components/MentorsCarousel";
 
 function App() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -68,6 +69,7 @@ function App() {
             </div>
 
             <CourseGrid />
+            <MentorsCarousel />
           </div>
         </MainLayout>
       </SidebarProvider>
