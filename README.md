@@ -174,6 +174,10 @@ We welcome contributions! Here's how you can contribute:
 
 ---
 
+Login details:
+email: user@educare.com
+password: User123
+
 ## Technologies Used 🛠️
 
 ### Frontend
