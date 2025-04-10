@@ -59,7 +59,7 @@ const generateToken = (user) => {
   return jwt.sign(
     { id: user.id, email: user.email, role: user.role || "TEACHER" },
     process.env.JWT_SECRET,
-    { expiresIn: "24h" }
+    { expiresIn: "24h" },
   );
 };
 
@@ -122,7 +122,7 @@ router.post("/login/admin", async (req, res) => {
   } catch (error) {
     console.error("Admin login error:", error);
     await logLoginAttempt(req.body.email, "ADMIN", false, req).catch((e) =>
-      console.error("Failed to log attempt:", e)
+      console.error("Failed to log attempt:", e),
     );
     res.status(500).json({ message: "Server error" });
   }
@@ -166,7 +166,7 @@ router.post("/login/teacher", async (req, res) => {
   } catch (error) {
     console.error("Teacher login error:", error);
     await logLoginAttempt(req.body.email, "TEACHER", false, req).catch((e) =>
-      console.error("Failed to log attempt:", e)
+      console.error("Failed to log attempt:", e),
     );
     res.status(500).json({ message: "Server error" });
   }
@@ -210,7 +210,7 @@ router.post("/login/user", async (req, res) => {
   } catch (error) {
     console.error("User login error:", error);
     await logLoginAttempt(req.body.email, "USER", false, req).catch((e) =>
-      console.error("Failed to log attempt:", e)
+      console.error("Failed to log attempt:", e),
     );
     res.status(500).json({ message: "Server error" });
   }
@@ -277,7 +277,7 @@ router.post(
     } finally {
       await prisma.$disconnect();
     }
-  }
+  },
 );
 
 export default router;

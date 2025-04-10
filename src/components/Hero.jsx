@@ -66,14 +66,14 @@ function Hero() {
 
         {/* Hero Section */}
         <section className="flex flex-col items-center justify-center h-[80vh] text-white text-center px-6 animate-fade-up">
-          <h2 className="text-5xl md:text-6xl font-bold font-[Dancing Script]">
+          <h2 className="text-4xl md:text-6xl font-bold font-[Dancing Script]">
             Learn, Grow
           </h2>
-          <h2 className="text-5xl md:text-6xl mt-2 font-bold font-[Dancing Script]">
+          <h2 className="text-4xl md:text-6xl mt-2 font-bold font-[Dancing Script]">
             {" "}
             &{" "}
           </h2>
-          <h2 className="text-5xl md:text-6xl font-bold mt-2 md:mt-2 font-[Dancing Script]">
+          <h2 className="text-4xl md:text-6xl font-bold mt-2 md:mt-2 font-[Dancing Script]">
             Unlock Opportunities
           </h2>
           <p className="text-lg md:text-xl my-8 font-[Dancing Script]">

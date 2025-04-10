@@ -44,7 +44,7 @@ const generateToken = (user) => {
   return jwt.sign(
     { id: user.id, email: user.email, role: "USER" }, // Default role as USER
     process.env.JWT_SECRET,
-    { expiresIn: "24h" }
+    { expiresIn: "24h" },
   );
 };
 
@@ -77,7 +77,7 @@ router.post("/signup", validateSignup, async (req, res) => {
         req.body.email,
         req.body.phone,
         false,
-        req
+        req,
       );
       return res.status(400).json({ errors: errors.array() });
     }
@@ -89,7 +89,7 @@ router.post("/signup", validateSignup, async (req, res) => {
         req.body.email,
         req.body.phone,
         false,
-        req
+        req,
       );
       return res.status(400).json({ message: error.details[0].message });
     }
@@ -136,7 +136,7 @@ router.post("/signup", validateSignup, async (req, res) => {
       req.body.email,
       req.body.phone,
       false,
-      req
+      req,
     ).catch((e) => console.error("Failed to log attempt:", e));
     res.status(500).json({ message: "Server error during signup" });
   } finally {

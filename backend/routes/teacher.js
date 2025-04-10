@@ -75,7 +75,7 @@ router.post(
       // Check if email already exists
       const emailCheck = await client.query(
         "SELECT id FROM teachers WHERE email = $1",
-        [req.body.email]
+        [req.body.email],
       );
       if (emailCheck.rows.length > 0) {
         await client.query("ROLLBACK");
@@ -128,7 +128,7 @@ router.post(
           teacherData.twitter,
           teacherData.cv,
           teacherData.profilePicture,
-        ]
+        ],
       );
 
       await client.query("COMMIT");
@@ -143,7 +143,7 @@ router.post(
     } finally {
       client.release();
     }
-  }
+  },
 );
 export default router;
 // Removed CommonJS export as ES module syntax is already used

@@ -88,7 +88,7 @@ function App() {
 
       {/* Mission Statement */}
       <section className="py-20 px-4 relative">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto text-center mb-4">
           <h2 className="text-4xl font-bold mb-6">Our Mission</h2>
           <p className="text-xl text-gray-700 leading-relaxed">
             At <span className="text-clr-primary font-bold">EduCARE</span>, we
@@ -100,12 +100,12 @@ function App() {
         </div>
 
         {/* Beautifully Styled Quote */}
-        <div className="absolute bottom-4 right-6 md:right-12 max-w-xs py-0 text-right">
-          <p className="text-lg text-black italic font-dancing leading-relaxed">
+        <div className="absolute  bottom-4 right-6 md:right-12 max-w-xs py-0 text-right">
+          <p className="text-lg  text-black italic font-dancing leading-relaxed">
             "Education is the most powerful weapon which you can use to change
             the world."
           </p>
-          <p className="text-sm text-blue-600 font-semibold mt-0">
+          <p className="text-sm  text-blue-600 font-semibold mt-0">
             — Nelson Mandela
           </p>
         </div>

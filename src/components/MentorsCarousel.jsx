@@ -3,52 +3,88 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const mentors = [
   {
-    name: "Mercy Marely",
-    role: "Fashion Designer",
-    mentored: 44,
-    rating: 5,
-    image: "/mentor-1.png",
-  },
-  {
-    name: "Sharon Stone",
-    role: "Dance Tutor",
-    mentored: 23,
-    rating: 5,
-    image: "/mentor-2.png",
+    category: "creative",
+    list: [
+      {
+        name: "Mercy Marely",
+        role: "Fashion Designer",
+        mentored: 44,
+        rating: 5,
+        image: "/mentor-1.jpg",
+      },
+      {
+        name: "Sharon Stone",
+        role: "Dance Tutor",
+        mentored: 23,
+        rating: 5,
+        image: "/mentor-2.jpg",
+      },
+      {
+        name: "Madonna Williams  ",
+        role: "Financial Advisor",
+        mentored: 96,
+        rating: 5,
+        image: "/mentor-3.png",
+      },
+      {
+        name: "Motunrayo Ogene  ",
+        role: "Art Instructor",
+        mentored: 96,
+        rating: 5,
+        image: "/mentor-4.png",
+      },
+      {
+        name: "Ese Modukpe",
+        role: "Financial Advisor",
+        mentored: 96,
+        rating: 5,
+        image: "/mentor-5.png",
+      },
+      {
+        name: "James Brown",
+        role: " Aeromechanic ",
+        mentored: 96,
+        rating: 5,
+        image: "/mentor-6.png",
+      },
+    ],
   },
 ];
 
 const MentorsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const groupIndex = 0; // You can make this dynamic if needed
+  const groupList = mentors[groupIndex].list;
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev === 0 ? mentors.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev - 2 < 0 ? groupList.length - 2 : prev - 2));
   };
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev === mentors.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev + 2) % groupList.length);
   };
 
+  const visibleMentors = groupList.slice(currentIndex, currentIndex + 2);
   return (
-    <section className="bg-gray-100 p-6 rounded-2xl shadow-md w-full ">
-      <h2 className="text-lg md:text-xl font-semibold text-gray-900">
+    <section className="bg-gray-100  rounded-2xl shadow-md w-full ">
+      <h2 className="text-lg md:text-xl font-semibold p-4 text-gray-900">
         Mentors
       </h2>
       <div className="bg-gray-100 p-3 md:p-6  rounded-2xl w-full flex flex-col items-center ">
-        <div className="flex items-center flex-col md:flex-row gap-6">
-          {mentors.map((mentor, index) => (
+        <div className="flex justify-center flex-col lg:flex-row xl:justify-start gap-6">
+          {visibleMentors.map((mentor, i) => (
             <div
-              key={index}
-              className={`flex items-center flex-col md:flex-row  bg-white p-4 rounded-xl shadow-lg transition-opacity duration-500 ${
-                index === currentIndex ? "opacity-100" : "opacity-50"
+              key={i}
+              className={`flex items-center flex-col sm:flex-row  w-full  bg-white p-4 md:p-2 rounded-xl shadow-lg transition-opacity duration-500 
+             
               }`}
             >
               <img
                 src={mentor.image}
                 alt={mentor.name}
-                className="w-full md:w-32 h-32 rounded-lg object-cover"
+                className="w-full md:w-56 h-48 rounded-lg object-cover"
               />
-              <div className="ml-4">
+              <div className="mx-4 my-4">
                 <h3 className="text-lg font-semibold">
                   {mentor.name}: {mentor.role}
                 </h3>
@@ -63,19 +99,18 @@ const MentorsCarousel = () => {
             </div>
           ))}
         </div>
-        <div className="flex items-center gap-4 mt-4">
-          <button onClick={prevSlide} className="p-2 text-gray-600">
+        <div className="flex items-center gap-4 mt-8">
+          <button
+            onClick={prevSlide}
+            className="p-2 border rounded-full bg-white text-black shadow-md hover:bg-gray-100 transition-colors"
+          >
             <FaChevronLeft size={20} />
           </button>
-          {mentors.map((_, index) => (
-            <div
-              key={index}
-              className={`w-3 h-3 rounded-full bg-gray-400 ${
-                index === currentIndex ? "bg-black" : ""
-              }`}
-            ></div>
-          ))}
-          <button onClick={nextSlide} className="p-2 text-gray-600">
+
+          <button
+            onClick={nextSlide}
+            className="p-2 bg-white rounded-full border text-gray-600 shadow-md hover:bg-gray-100 transition-colors"
+          >
             <FaChevronRight size={20} />
           </button>
         </div>

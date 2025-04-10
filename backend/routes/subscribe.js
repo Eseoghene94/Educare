@@ -11,7 +11,7 @@ dotenv.config();
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 if (!SENDGRID_API_KEY) {
   throw new Error(
-    "SENDGRID_API_KEY is not defined in the environment variables."
+    "SENDGRID_API_KEY is not defined in the environment variables.",
   );
 }
 sgMail.setApiKey(SENDGRID_API_KEY);
@@ -65,7 +65,7 @@ router.post("/", validateSubscription, async (req, res) => {
   } catch (error) {
     console.error(
       "Error sending subscription email:",
-      error.response?.body || error
+      error.response?.body || error,
     );
     res.status(500).json({
       error: "Failed to subscribe. Please try again later.",
