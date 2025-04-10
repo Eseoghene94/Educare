@@ -131,7 +131,7 @@ function TeacherSignup() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       const result = await response.json();

@@ -117,7 +117,7 @@ function Programs() {
             <button
               key={cat.name}
               onClick={() => setActiveCategory(cat.name)}
-              className={`px-3 md:px-6  py-3 rounded-full text-[12px] md:text-sm font-medium transition-all duration-300 ${
+              className={`px-3 md:px-6  py-3 rounded-full text-[10px] md:text-[14px] md:text-sm font-medium transition-all duration-300 ${
                 activeCategory === cat.name
                   ? "bg-clr-primary text-white shadow-lg"
                   : "bg-[#dbeafe] text-gray-800 hover:bg-gray-300"
